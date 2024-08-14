@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import register_img from "../../assets/register_image.png";
 
 const Register = () => {
   return (
@@ -9,9 +8,14 @@ const Register = () => {
         <div className="w-full md:w-1/2 bg-[#F3F5F7] p-4 md:h-screen">
           <div className="justify-center items-center bg-[#F3F5F7]">
             {/* logo */}
-            <p className="text-center font-semibold text-2xl">3legant.</p>
+            <Link to={"/"}>
+              <p className="text-center font-semibold text-2xl">3legant.</p>
+            </Link>
             <div className="flex justify-center items-center">
-              <img src={register_img} alt="register" />
+              <img
+                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723635787/furniture-shop/register_login_banner_el4mxn.png"
+                alt="register"
+              />
             </div>
           </div>
         </div>
@@ -66,7 +70,9 @@ const Register = () => {
                     Privacy Policy
                   </p>{" "}
                   and
-                  <p className="text-black font-semibold ml-1 cursor-pointer hover:underline">Terms of Use</p>
+                  <p className="text-black font-semibold ml-1 cursor-pointer hover:underline">
+                    Terms of Use
+                  </p>
                 </p>
               </div>
 
