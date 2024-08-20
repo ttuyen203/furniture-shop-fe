@@ -3,7 +3,6 @@ import { GoArrowRight } from "react-icons/go";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import Newsletter from "../../components/Newsletter";
-import Footer from "../../components/Footer";
 
 const Home = () => {
   return (
@@ -13,13 +12,13 @@ const Home = () => {
         <img
           src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723635930/furniture-shop/banner-home_ugqdxj.png"
           alt="banner_home"
-          className="w-3/4"
+          className="w-4/5"
         />
       </div>
 
       {/*  */}
       <div className="flex justify-center mt-9">
-        <div className="w-3/4 flex flex-col sm:flex-row justify-between items-center">
+        <div className="w-4/5 flex flex-col sm:flex-row justify-between items-center">
           <div className="w-2/3">
             <p className="text-7xl pb-3">
               Simply Unique<span className="text-[#6c7275]">/</span>
@@ -29,9 +28,9 @@ const Home = () => {
             </p>
           </div>
           <div className="">
-            <p className="w-5/6">
-              <span className="text-primary font-bold">3legant</span> is a gift
-              & decorations store based in HCMC, Vietnam. Est since 2019.
+            <p className="w-5/6 text-[#6c7275]">
+              <span className="text-black text-base font-bold">3legant</span> is
+              a gift & decorations store based in HCMC, Vietnam. Est since 2019.
             </p>
           </div>
         </div>
@@ -39,7 +38,7 @@ const Home = () => {
 
       {/*  */}
       <div className="flex justify-center mt-9">
-        <div className="w-3/4 flex flex-col sm:flex-row gap-11">
+        <div className="w-4/5 flex flex-col sm:flex-row gap-11">
           {/* Living Room */}
           <div className="relative flex-1">
             <img
@@ -109,19 +108,20 @@ const Home = () => {
 
       {/*  */}
       <div className="flex justify-center mt-9">
-        <div className="w-3/4">
+        <div className="w-4/5">
           <div className="w-full flex justify-between items-end pb-8">
             <div>
-              <p className="text-4xl font-medium">New</p>
-              <p className="text-4xl font-medium">Arrivals</p>
+              <p className="text-[34px] lg:text-[40px] font-medium leading-10">
+                New <p>Arrivals</p>
+              </p>
             </div>
             <div className="flex flex-col items-end">
               <Link
                 to="/shop"
                 className="flex items-center gap-1 hover:underline"
               >
-                <span className="text-xs sm:text-lg">More Products</span>
-                <GoArrowRight fontWeight={500} />
+                <span className="text-sm lg:text-base ">More Products</span>
+                <GoArrowRight fontWeight={500} size={16}/>
               </Link>
             </div>
           </div>
@@ -157,8 +157,8 @@ const Home = () => {
                   className="w-full"
                 />
               </div>
-              <div className="mt-2">
-                <div className="flex gap-1 pb-1">
+              <div className="mt-3">
+                <div className="flex gap-1 pb-2">
                   <FaStar size={18} />
                   <FaStar size={18} />
                   <FaStar size={18} />
@@ -204,8 +204,8 @@ const Home = () => {
                   className="w-full"
                 />
               </div>
-              <div className="mt-2">
-                <div className="flex gap-1 pb-1">
+              <div className="mt-3">
+                <div className="flex gap-1 pb-2">
                   <FaStar size={18} />
                   <FaStar size={18} />
                   <FaStar size={18} />
@@ -251,8 +251,8 @@ const Home = () => {
                   className="w-full"
                 />
               </div>
-              <div className="mt-2">
-                <div className="flex gap-1 pb-1">
+              <div className="mt-3">
+                <div className="flex gap-1 pb-2">
                   <FaStar size={18} />
                   <FaStar size={18} />
                   <FaStar size={18} />
@@ -298,8 +298,8 @@ const Home = () => {
                   className="w-full"
                 />
               </div>
-              <div className="mt-2">
-                <div className="flex gap-1 pb-1">
+              <div className="mt-3">
+                <div className="flex gap-1 pb-2">
                   <FaStar size={18} />
                   <FaStar size={18} />
                   <FaStar size={18} />
@@ -319,15 +319,17 @@ const Home = () => {
           <hr className="border-2 border-black my-9 rounded-sm " />
           {/* List service */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className=" bg-[#F3F5F7]">
+            <div className="bg-[#F3F5F7]">
               <img
                 src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723739854/furniture-shop/fast_delivery_olroky.png"
                 alt=""
-                className="pt-12 pl-8 pb-5"
+                className="pt-10 pl-4 lg:pl-8 pb-5"
               />
-              <div className="pl-8">
-                <p className="text-xl font-medium pb-2">Free Shipping</p>
-                <p className="text-[14px] text-[#6C7275] pb-12">
+              <div className="pl-4 lg:pl-8">
+                <p className="text-sm lg:text-xl font-semibold lg:font-medium pb-2">
+                  Free Shipping
+                </p>
+                <p className="text-sm text-[#6C7275] font-normal pb-12">
                   Order above $200
                 </p>
               </div>
@@ -336,11 +338,13 @@ const Home = () => {
               <img
                 src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723741114/furniture-shop/money_be6l46.png"
                 alt=""
-                className="pt-12 pl-8 pb-5"
+                className="pt-10 pl-4 lg:pl-8 pb-5"
               />
-              <div className="pl-8">
-                <p className="text-xl font-medium pb-2">Money-back</p>
-                <p className="text-[14px] text-[#6C7275] pb-12">
+              <div className="pl-4 lg:pl-8">
+                <p className="text-sm lg:text-xl font-semibold lg:font-medium pb-2">
+                  Money-back
+                </p>
+                <p className="text-sm text-[#6C7275] font-normal pb-12">
                   30 days guarantee
                 </p>
               </div>
@@ -349,11 +353,13 @@ const Home = () => {
               <img
                 src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723741222/furniture-shop/lock_01_whqnrr.png"
                 alt=""
-                className="pt-12 pl-8 pb-5"
+                className="pt-10 pl-4 lg:pl-8 pb-5"
               />
-              <div className="pl-8">
-                <p className="text-xl font-medium pb-2">Secure Payments</p>
-                <p className="text-[14px] text-[#6C7275] pb-12">
+              <div className="pl-4 lg:pl-8">
+                <p className="text-sm lg:text-xl font-semibold lg:font-medium pb-2">
+                  Secure Payments
+                </p>
+                <p className="text-sm text-[#6C7275] font-normal pb-12">
                   Secured by Stripe
                 </p>
               </div>
@@ -362,11 +368,13 @@ const Home = () => {
               <img
                 src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723741285/furniture-shop/call_em3pvk.png"
                 alt=""
-                className="pt-12 pl-8 pb-5"
+                className="pt-10 pl-4 lg:pl-8 pb-5"
               />
-              <div className="pl-8">
-                <p className="text-xl font-medium pb-2">24/7 Support</p>
-                <p className="text-[14px] text-[#6C7275] pb-12">
+              <div className="pl-4 lg:pl-8">
+                <p className="text-sm lg:text-xl font-semibold lg:font-medium pb-2">
+                  24/7 Support
+                </p>
+                <p className="text-sm text-[#6C7275] font-normal pb-12">
                   Phone and Email support
                 </p>
               </div>
@@ -384,21 +392,26 @@ const Home = () => {
               alt=""
             />
           </div>
-          <div className="pt-16 sm:pt-20 pl-10">
-            <div className="sm:w-[60%]">
+          <div className="p-10 lg:p-20">
+            <div className="lg:w-[80%]">
               {" "}
-              <p className="text-[#377DFF] font-bold">SALE UP TO 35% OFF</p>
-              <p className="text-4xl font-medium pt-5">HUNDREDS of </p>
-              <p className="text-4xl font-medium pb-5">New lower prices!</p>
-              <p className="pb-5 text-xl font-normal">
+              <p className="text-[#377DFF] font-bold text-base">
+                SALE UP TO 35% OFF
+              </p>
+              <p className="text-[34px] lg:text[40px] font-medium leading-10 py-5">
+                HUNDREDS of <p>New lower prices!</p>
+              </p>
+              <p className="pb-5 text-base lg:text-xl font-normal">
                 It’s more affordable than ever to give every room in your home a
                 stylish makeover
               </p>
               <Link to="/shop" className="flex items-center gap-1 font-medium">
-                <span className="sm:text-lg">Shop Now</span>
+                <span className="text-sm lg:text-base font-medium">
+                  Shop Now
+                </span>
                 <GoArrowRight fontWeight={500} size={20} />
               </Link>
-              <hr className="border-t-2 border-black w-24 sm:w-28 mt-2" />
+              {/* <hr className="border-t-2 border-black w-24 sm:w-28 mt-2" /> */}
             </div>
           </div>
         </div>
@@ -406,20 +419,20 @@ const Home = () => {
 
       {/* Articles */}
       <div className="flex justify-center mt-9">
-        <div className="w-3/4">
+        <div className="w-4/5">
           <div className="w-full flex justify-between items-end pb-8">
             <div>
-              <p className="text-4xl font-medium">Articles</p>
+              <p className="text-[34px] lg:text-[40px] font-medium">Articles</p>
             </div>
             <div className="flex flex-col items-end">
               <Link
                 to="/shop"
                 className="flex items-center gap-1 hover:underline"
               >
-                <span className="text-sm sm:text-lg font-medium">
+                <span className="text-sm lg:text-base font-medium mb-2">
                   More Articles
                 </span>
-                <GoArrowRight fontWeight={500} />
+                <GoArrowRight fontWeight={500} size={16} className="mb-2"/>
               </Link>
             </div>
           </div>
@@ -433,17 +446,17 @@ const Home = () => {
                 />
               </div>
               <div>
-                <p className="text-xl font-medium mb-2 mt-4">
+                <p className="text-base lg:text-xl font-medium mb-2 mt-4">
                   7 ways to decor your home
                 </p>
                 <Link
                   to="/shop"
                   className="flex items-center gap-1 font-medium"
                 >
-                  <span className="text-xs sm:text-base">Read More</span>
+                  <span className="text-sm lg:text-base">Read More</span>
                   <GoArrowRight fontWeight={500} size={20} />
                 </Link>
-                <hr className="border-t-2 border-black w-24 sm:w-28" />
+                {/* <hr className="border-t-2 border-black w-24 sm:w-28" /> */}
               </div>
             </div>
             <div className="mb-2">
@@ -455,17 +468,17 @@ const Home = () => {
                 />
               </div>
               <div>
-                <p className="text-xl font-medium mb-2 mt-4">
+                <p className="text-base lg:text-xl font-medium mb-2 mt-4">
                   Kitchen organization
                 </p>
                 <Link
                   to="/shop"
                   className="flex items-center gap-1 font-medium"
                 >
-                  <span className="text-xs sm:text-base">Read More</span>
+                  <span className="text-sm lg:text-base">Read More</span>
                   <GoArrowRight fontWeight={500} size={20} />
                 </Link>
-                <hr className="border-t-2 border-black w-24 sm:w-28" />
+                {/* <hr className="border-t-2 border-black w-24 sm:w-28" /> */}
               </div>
             </div>
             <div className="mb-2">
@@ -477,17 +490,17 @@ const Home = () => {
                 />
               </div>
               <div>
-                <p className="text-xl font-medium mb-2 mt-4">
+                <p className="text-base lg:text-xl font-medium mb-2 mt-4">
                   Decor your bedroom
                 </p>
                 <Link
                   to="/shop"
                   className="flex items-center gap-1 font-medium"
                 >
-                  <span className="text-xs sm:text-base">Read More</span>
+                  <span className="text-sm lg:text-base">Read More</span>
                   <GoArrowRight fontWeight={500} size={20} />
                 </Link>
-                <hr className="border-t-2 border-black w-24 sm:w-28" />
+                {/* <hr className="border-t-2 border-black w-24 sm:w-28" /> */}
               </div>
             </div>
           </div>
@@ -496,9 +509,6 @@ const Home = () => {
 
       {/* Newsletter */}
       <Newsletter />
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
