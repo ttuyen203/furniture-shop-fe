@@ -8,29 +8,35 @@ const Home = () => {
   return (
     <div>
       {/* Banner */}
-      <div className="flex justify-center items-center">
-        <img
-          src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723635930/furniture-shop/banner-home_ugqdxj.png"
-          alt="banner_home"
-          className="w-4/5"
-        />
-      </div>
+      <div
+        className="w-4/5 h-[40vh] lg:h-[536px] relative bg-center bg-no-repeat bg-cover mx-auto"
+        style={{
+          backgroundImage:
+            "url('https://res.cloudinary.com/dymajn3ys/image/upload/v1723635930/furniture-shop/banner-home_ugqdxj.png')",
+          backgroundPosition: "right 42% center",
+        }}
+      ></div>
 
       {/*  */}
       <div className="flex justify-center mt-9">
         <div className="w-4/5 flex flex-col sm:flex-row justify-between items-center">
-          <div className="w-2/3">
-            <p className="text-7xl pb-3">
-              Simply Unique<span className="text-[#6c7275]">/</span>
-            </p>
-            <p className="text-7xl">
-              Simply Better<span className="text-[#6c7275]">.</span>
-            </p>
+          <div className="lg:w-2/3">
+            <div className="text-[40px] lg:text-7xl font-medium leading-none mb-4">
+              <p className="lg:pb-3">
+                Simply Unique<span className="text-[#6c7275]">/</span>
+              </p>
+              <p>
+                Simply Better<span className="text-[#6c7275]">.</span>
+              </p>
+            </div>
           </div>
           <div className="">
-            <p className="w-5/6 text-[#6c7275]">
-              <span className="text-black text-base font-bold">3legant</span> is
-              a gift & decorations store based in HCMC, Vietnam. Est since 2019.
+            <p className="lg:w-5/6 text-[#6c7275]">
+              <span className="text-black text-base font-semibold">
+                3legant
+              </span>{" "}
+              is a gift & decorations store based in HCMC, Vietnam. Est since
+              2019.
             </p>
           </div>
         </div>
@@ -121,7 +127,7 @@ const Home = () => {
                 className="flex items-center gap-1 hover:underline"
               >
                 <span className="text-sm lg:text-base ">More Products</span>
-                <GoArrowRight fontWeight={500} size={16}/>
+                <GoArrowRight fontWeight={500} size={16} />
               </Link>
             </div>
           </div>
@@ -432,7 +438,7 @@ const Home = () => {
                 <span className="text-sm lg:text-base font-medium mb-2">
                   More Articles
                 </span>
-                <GoArrowRight fontWeight={500} size={16} className="mb-2"/>
+                <GoArrowRight fontWeight={500} size={16} className="mb-2" />
               </Link>
             </div>
           </div>

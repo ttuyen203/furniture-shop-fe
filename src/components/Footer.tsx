@@ -8,21 +8,22 @@ const Footer = () => {
     <>
       <div className="bg-black flex justify-center">
         <div className="w-3/4">
-          <div className="flex justify-between pt-9 items-center">
-            <div className="flex gap-10 items-center">
+          <div className="flex flex-col lg:flex-row justify-between pt-9 items-center">
+            <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 items-center">
               <div className="text-2xl font-medium text-white">
                 <p>3legant.</p>
               </div>
               <div className="text-2xl font-medium text-[#6C7275]">
-                <p>|</p>
+                <p className="hidden lg:block">|</p>
+                <p className="block lg:hidden">─</p>
               </div>
-              <div className="font-light text-white">
+              <div className="font-light text-white mb-8 lg:mb-0">
                 <p>Gift & Decoration Store</p>
               </div>
             </div>
 
             {/* Navbar */}
-            <div className="flex gap-8">
+            <div className="flex flex-col lg:flex-row gap-8 items-center">
               <Link to={"/"} className="font-medium text-white hover:underline">
                 Home
               </Link>
@@ -38,18 +39,20 @@ const Footer = () => {
             </div>
           </div>
 
-          <hr className="border-1 border-[#6C7275] my-9 rounded-sm" />
+          <hr className="border-2 lg:border-1  border-[#6c7275] my-6 lg:my-9 rounded-sm" />
 
-          <div className="flex justify-between pb-9 items-center">
-            <div className="flex gap-10 items-center">
-              <div className="font-light text-white">
+          <div className="flex flex-col-reverse lg:flex-row gap-6 lg:gap-8 justify-between pb-9 items-center">
+            <div className="flex flex-col-reverse lg:flex-row lg:gap-10 items-center justify-center">
+              <div className="font-normal text-[12px] text-white">
                 <p>Copyright © 2023 3legant. All rights reserved</p>
               </div>
-              <div className="font-medium text-white">
-                <p>Privacy Policy</p>
-              </div>
-              <div className="font-medium text-white">
-                <p>Terms of Use</p>
+              <div className="flex gap-6 mb-6 lg:mb-0">
+                <div className="font-semibold text-white text-[12px]">
+                  <p>Privacy Policy</p>
+                </div>
+                <div className="font-semibold text-white text-[12px]">
+                  <p>Terms of Use</p>
+                </div>
               </div>
             </div>
 
