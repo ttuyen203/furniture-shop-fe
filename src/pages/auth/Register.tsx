@@ -62,17 +62,17 @@ const Register = () => {
               <div className="flex gap-2 md:gap-3 mb-8">
                 <input
                   type="checkbox"
-                  className="w-3 md:w-5 border-2 border-[#6c7275] cursor-pointer"
+                  className="w-5 border-2 border-[#6c7275] cursor-pointer"
                 />
-                <p className="flex text-sm text-[#6c7275]">
-                  I agree with{" "}
-                  <p className="text-black font-semibold mr-1 ml-1 cursor-pointer hover:underline">
+                <p className="text-xs lg:text-base text-[#6c7275]">
+                  I agree with
+                  <span className="text-black font-semibold mr-1 ml-1">
                     Privacy Policy
-                  </p>{" "}
+                  </span>
                   and
-                  <p className="text-black font-semibold ml-1 cursor-pointer hover:underline">
+                  <span className="text-black font-semibold ml-1">
                     Terms of Use
-                  </p>
+                  </span>
                 </p>
               </div>
 

@@ -133,7 +133,7 @@ const Home = () => {
           </div>
           {/* List Product */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="">
+            <div className="group">
               <div className="w-full relative">
                 <div className="absolute p-4">
                   {/* tag new */}
@@ -146,11 +146,11 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer">
+                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                     <AiOutlineHeart size={20} color="#6c7275" />
                   </div>
                 </div>
-                <div className="absolute px-5 pb-4 bottom-0 ">
+                <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Link to={"/"} className="text-center">
                     <div className="bg-black text-white px-14 py-2 rounded-lg">
                       <p className="w-24">Add to cart</p>
@@ -180,7 +180,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="">
+            <div className="group">
               <div className="w-full relative">
                 <div className="absolute p-4">
                   {/* tag new */}
@@ -193,11 +193,11 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer">
+                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                     <AiOutlineHeart size={20} color="#6c7275" />
                   </div>
                 </div>
-                <div className="absolute px-5 pb-4 bottom-0 ">
+                <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Link to={"/"} className="text-center">
                     <div className="bg-black text-white px-14 py-2 rounded-lg">
                       <p className="w-24">Add to cart</p>
@@ -227,7 +227,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="">
+            <div className="group">
               <div className="w-full relative">
                 <div className="absolute p-4">
                   {/* tag new */}
@@ -240,11 +240,11 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer">
+                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                     <AiOutlineHeart size={20} color="#6c7275" />
                   </div>
                 </div>
-                <div className="absolute px-5 pb-4 bottom-0 ">
+                <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Link to={"/"} className="text-center">
                     <div className="bg-black text-white px-14 py-2 rounded-lg">
                       <p className="w-24">Add to cart</p>
@@ -274,7 +274,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="">
+            <div className="group">
               <div className="w-full relative">
                 <div className="absolute p-4">
                   {/* tag new */}
@@ -287,11 +287,11 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer">
+                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                     <AiOutlineHeart size={20} color="#6c7275" />
                   </div>
                 </div>
-                <div className="absolute px-5 pb-4 bottom-0 ">
+                <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Link to={"/"} className="text-center">
                     <div className="bg-black text-white px-14 py-2 rounded-lg">
                       <p className="w-24">Add to cart</p>

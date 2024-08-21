@@ -6,6 +6,8 @@ import { FiSearch } from "react-icons/fi";
 import { BsList } from "react-icons/bs";
 import { IoCloseOutline } from "react-icons/io5";
 import { AiOutlineHeart } from "react-icons/ai";
+import { FiMinus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,8 +16,136 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
   return (
     <div className="relative">
+      {/* Fly Cart */}
+      <div
+        className={`fixed top-0 right-0 w-[90%] lg:w-[25%] h-full bg-white transform p-5 flex flex-col justify-between ${
+          isCartOpen ? "translate-x-0" : "translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50 `}
+      >
+        <div>
+          <p className="text-[28px] font-medium mb-5">Cart</p>
+          <div className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4">
+            <div className="w-1/4">
+              <img
+                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724257904/furniture-shop/product_cart_rawcuf.png"
+                alt=""
+                className="w-20"
+              />
+            </div>
+            <div className="w-3/4">
+              <div className="flex text-sm font-semibold justify-between mb-1">
+                <p>Tray Table</p>
+                <p>$19.19</p>
+              </div>
+              <div className="flex justify-between mb-1 text-xs font-normal text-[#6C7275]">
+                <p>Color: Black</p>
+                <IoCloseOutline
+                  size={20}
+                  className="cursor-pointer active:bg-[#dde2e5]"
+                />
+              </div>
+              <div className="border border-[#6c7275] rounded-md p-2 flex justify-center items-center gap-3 w-[30%]">
+                <FiMinus
+                  className="cursor-pointer active:bg-[#dde2e5]"
+                  size={20}
+                />
+                <div className="font-semibold text-xs">2</div>
+                <FiPlus
+                  className="cursor-pointer active:bg-[#dde2e5]"
+                  size={20}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4">
+            <div className="w-1/4">
+              <img
+                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724257904/furniture-shop/product_cart_rawcuf.png"
+                alt=""
+                className="w-20"
+              />
+            </div>
+            <div className="w-3/4">
+              <div className="flex text-sm font-semibold justify-between mb-1">
+                <p>Tray Table</p>
+                <p>$19.19</p>
+              </div>
+              <div className="flex justify-between mb-1 text-xs font-normal text-[#6C7275]">
+                <p>Color: Black</p>
+                <IoCloseOutline
+                  size={20}
+                  className="cursor-pointer active:bg-[#dde2e5]"
+                />
+              </div>
+              <div className="border border-[#6c7275] rounded-md p-2 flex justify-center items-center gap-3 w-[30%]">
+                <FiMinus
+                  className="cursor-pointer active:bg-[#dde2e5]"
+                  size={20}
+                />
+                <div className="font-semibold text-xs">2</div>
+                <FiPlus
+                  className="cursor-pointer active:bg-[#dde2e5]"
+                  size={20}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="mb-5">
+            <div>
+              <Link
+                to="/"
+                className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between"
+                onClick={toggleMenu}
+              >
+                <p className="text-base font-normal">Subtotal</p>
+                <div className="flex gap-1 text-base font-semibold">$99.00</div>
+              </Link>
+            </div>
+            <div>
+              <Link
+                to="/"
+                className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between"
+                onClick={toggleMenu}
+              >
+                <p className="text-xl font-medium">Total</p>
+                <div className="flex gap-1 text-xl font-medium">$234.00</div>
+              </Link>
+            </div>
+          </div>
+
+          <Link to={"/"}>
+            <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center">
+              Checkout
+            </p>
+          </Link>
+
+          <Link to={"/"}>
+            <p className="flex justify-center hover:underline mt-4 text-sm font-semibold">
+              View Cart
+            </p>
+          </Link>
+        </div>
+      </div>
+
+      {/* Overlay */}
+      {isCartOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-40"
+          onClick={toggleCart}
+        ></div>
+      )}
+
       {/* Fly Menu */}
       <div
         className={`fixed top-0 left-0 w-[90%] h-full bg-white transform p-5 flex flex-col justify-between ${
@@ -176,17 +306,20 @@ const Header = () => {
                 className="text-gray-700 hover:text-black transition-colors"
               />
             </Link>
-            <div className="flex items-center">
-              <Link to={"/"} className="relative flex items-center mr-1">
-                <CgShoppingBag
-                  size={22}
-                  className="text-gray-700 hover:text-black transition-colors"
-                />
-              </Link>
-              <div className="bg-black text-white w-5 h-5 text-center flex items-center justify-center rounded-full text-xs">
-                <p>3</p>
+            <Link to={"/"}>
+              <div className="flex items-center">
+                <div className="relative flex items-center mr-1">
+                  <CgShoppingBag
+                    size={22}
+                    className="text-gray-700 hover:text-black transition-colors"
+                    onClick={toggleCart}
+                  />
+                </div>
+                <div className="bg-black text-white w-5 h-5 text-center flex items-center justify-center rounded-full text-xs">
+                  <p>3</p>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
