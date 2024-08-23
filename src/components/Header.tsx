@@ -31,7 +31,12 @@ const Header = () => {
         } transition-transform duration-300 ease-in-out z-50 `}
       >
         <div>
-          <p className="text-[28px] font-medium mb-5">Cart</p>
+          <div className="flex justify-between items-center mb-5">
+            <div className="text-[28px] font-medium">Cart</div>
+            <button onClick={toggleCart}>
+              <IoCloseOutline size={25} />
+            </button>
+          </div>
           <div className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4">
             <div className="w-1/4">
               <img
@@ -306,20 +311,19 @@ const Header = () => {
                 className="text-gray-700 hover:text-black transition-colors"
               />
             </Link>
-            <Link to={"/"}>
+            <div onClick={toggleCart} className="cursor-pointer">
               <div className="flex items-center">
                 <div className="relative flex items-center mr-1">
                   <CgShoppingBag
                     size={22}
                     className="text-gray-700 hover:text-black transition-colors"
-                    onClick={toggleCart}
                   />
                 </div>
                 <div className="bg-black text-white w-5 h-5 text-center flex items-center justify-center rounded-full text-xs">
                   <p>3</p>
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>

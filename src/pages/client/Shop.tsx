@@ -4,8 +4,26 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
+import { useState } from "react";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Shop = () => {
+  const [isOpenSelectCategory, setIsOpenSelectCategory] = useState(false);
+  const [isOpenSelectPrice, setIsOpenSelectPrice] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("Living Room");
+  const [selectedPrice, setSelectedPrice] = useState("Living Room");
+
+  const categories = ["Living Room", "Bedroom", "Kitchen", "Office", "Outdoor"];
+  const prices = ["All Price", "$100 - $300"];
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setIsOpenSelectCategory(false);
+  };
+  const handlePriceClick = (price) => {
+    setSelectedPrice(price);
+    setIsOpenSelectPrice(false);
+  };
   return (
     <div>
       {/* Banner */}
@@ -52,27 +70,57 @@ const Shop = () => {
                 CATEGORIES
               </p>
               <div className="border-2 border-[#6c7275] p-1 rounded-lg">
-                <select className="text-base font-semibold w-full focus:outline-none">
-                  <option value="">Living Room</option>
-                  <option value="">Option 1</option>
-                </select>
+                <button
+                  onClick={() => setIsOpenSelectCategory(!isOpenSelectCategory)}
+                  className="w-full text-base font-semibold px-2 flex items-center justify-between"
+                >
+                  {selectedCategory}
+                  <MdKeyboardArrowDown size={20} />
+                </button>
               </div>
+              {isOpenSelectCategory && (
+                <div className="w-full border-2 mt-1 p-2 rounded-lg">
+                  {categories.map((category) => (
+                    <p
+                      key={category}
+                      onClick={() => handleCategoryClick(category)}
+                      className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer"
+                    >
+                      {category}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="lg:w-[48%]">
               <p className="text-base font-semibold text-[#6C7275] mb-2">
                 PRICE
               </p>
               <div className="border-2 border-[#6c7275] p-1 rounded-lg">
-                <select className="text-base font-semibold w-full focus:outline-none">
-                  <option value="" className="">
-                    All Price
-                  </option>
-                  <option value="">Option 1</option>
-                </select>
+                <button
+                  onClick={() => setIsOpenSelectPrice(!isOpenSelectPrice)}
+                  className="w-full text-base font-semibold px-2 flex items-center justify-between"
+                >
+                  {selectedPrice}
+                  <MdKeyboardArrowDown size={20} />
+                </button>
               </div>
+              {isOpenSelectPrice && (
+                <div className="w-full border-2 mt-1 p-2 rounded-lg">
+                  {prices.map((price) => (
+                    <p
+                      key={price}
+                      onClick={() => handlePriceClick(price)}
+                      className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer"
+                    >
+                      {price}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex justify-between items-center w-full lg:w-1/4 mt-6">
+          <div className="flex justify-between items-center w-full lg:w-1/4 mt-6 border-y-2 py-1.5 lg:py-0 lg:border-y-0">
             <div className="flex gap-1 items-center">
               <p>Sort by</p>
               <IoIosArrowDown />
