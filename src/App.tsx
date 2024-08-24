@@ -4,6 +4,7 @@ import Login from "./pages/auth/Login";
 import Home from "./pages/client/Home";
 import ClientLayout from "./layouts/ClientLayout";
 import Shop from "./pages/client/Shop";
+import ProductDetail from "./pages/client/ProductDetail";
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
             <Route index element={<Home />}></Route>
             <Route path="home" element={<Home />}></Route>
             <Route path="shop" element={<Shop />}></Route>
+            <Route
+              path="product-detail/:id"
+              element={<ProductDetail />}
+            ></Route>
           </Route>
         </Routes>
       </BrowserRouter>

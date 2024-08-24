@@ -4,6 +4,7 @@ import { FaStar } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import Newsletter from "../../components/Newsletter";
 
+
 const Home = () => {
   return (
     <div>
