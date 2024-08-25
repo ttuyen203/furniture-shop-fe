@@ -6,7 +6,13 @@ import { FiPlus } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { GoArrowRight } from "react-icons/go";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import Newsletter from "../../components/Newsletter";
+import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const ProductDetail = () => {
   return (
@@ -25,9 +31,9 @@ const ProductDetail = () => {
 
       {/*  */}
       <div className="flex justify-center mb-10 mt-5">
-        <div className="w-4/5 flex flex-col lg:flex-row gap-16">
-          {/* Image Product */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 w-full lg:w-2/4">
+        <div className="w-4/5 flex flex-col lg:flex-row gap-8 lg:gap-16 ">
+          {/*List Image Product */}
+          <div className="hidden lg:grid lg:grid-cols-2 gap-7 w-full lg:w-2/4">
             <div className="max-w-[262px] ">
               <img
                 src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
@@ -65,6 +71,56 @@ const ProductDetail = () => {
               />
             </div>
           </div>
+          {/* List Image Product Mobile */}
+          <div className="block lg:hidden relative">
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={10}
+              slidesPerView={1}
+              loop={true}
+              navigation={{
+                nextEl: ".btn-next",
+                prevEl: ".btn-prev",
+              }}
+              breakpoints={{
+                1024: {
+                  slidesPerView: 2,
+                  spaceBetween: 30,
+                },
+              }}
+            >
+              <SwiperSlide className="w-full">
+                <img
+                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
+                  alt="Product Image"
+                  className="w-full h-auto object-cover"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="w-full">
+                <img
+                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
+                  alt="Product Image"
+                  className="w-full h-auto object-cover"
+                />
+              </SwiperSlide>
+              <SwiperSlide className="w-full">
+                <img
+                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
+                  alt="Product Image"
+                  className="w-full h-auto object-cover"
+                />
+              </SwiperSlide>
+            </Swiper>
+
+            {/* Navigation buttons */}
+            <div className="btn-prev absolute top-1/2 left-4 transform -translate-y-1/2 bg-white p-4 rounded-full cursor-pointer z-10 flex items-center justify-center">
+              <FaArrowLeft size={20} />
+            </div>
+            <div className="btn-next absolute top-1/2 right-4 transform -translate-y-1/2 bg-white p-4 rounded-full cursor-pointer z-10 flex items-center justify-center">
+              <FaArrowRight size={20} />
+            </div>
+          </div>
+
           <div className="w-full lg:w-3/5">
             <div className="flex items-center gap-5">
               <div className="flex gap-1 pb-2">
