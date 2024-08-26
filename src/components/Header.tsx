@@ -108,24 +108,16 @@ const Header = () => {
         <div>
           <div className="mb-5">
             <div>
-              <Link
-                to="/"
-                className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between"
-                onClick={toggleMenu}
-              >
+              <div className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between">
                 <p className="text-base font-normal">Subtotal</p>
                 <div className="flex gap-1 text-base font-semibold">$99.00</div>
-              </Link>
+              </div>
             </div>
             <div>
-              <Link
-                to="/"
-                className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between"
-                onClick={toggleMenu}
-              >
+              <div className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between">
                 <p className="text-xl font-medium">Total</p>
                 <div className="flex gap-1 text-xl font-medium">$234.00</div>
-              </Link>
+              </div>
             </div>
           </div>
 
@@ -135,7 +127,12 @@ const Header = () => {
             </p>
           </Link>
 
-          <Link to={"/"}>
+          <Link
+            to={"/cart"}
+            onClick={() => {
+              setIsCartOpen(false);
+            }}
+          >
             <p className="flex justify-center hover:underline mt-4 text-sm font-semibold">
               View Cart
             </p>

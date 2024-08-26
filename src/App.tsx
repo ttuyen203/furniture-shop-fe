@@ -5,6 +5,7 @@ import Home from "./pages/client/Home";
 import ClientLayout from "./layouts/ClientLayout";
 import Shop from "./pages/client/Shop";
 import ProductDetail from "./pages/client/ProductDetail";
+import Cart from "./pages/client/Cart";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               path="product-detail/:id"
               element={<ProductDetail />}
             ></Route>
+            <Route path="cart" element={<Cart />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
