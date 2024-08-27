@@ -121,7 +121,12 @@ const Header = () => {
             </div>
           </div>
 
-          <Link to={"/"}>
+          <Link
+            to={"/checkout"}
+            onClick={() => {
+              setIsCartOpen(false);
+            }}
+          >
             <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center">
               Checkout
             </p>

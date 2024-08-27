@@ -7,6 +7,7 @@ import Shop from "./pages/client/Shop";
 import ProductDetail from "./pages/client/ProductDetail";
 import Cart from "./pages/client/Cart";
 import Checkout from "./pages/client/Checkout";
+import OrderComplete from "./pages/client/OrderComplete";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             ></Route>
             <Route path="cart" element={<Cart />}></Route>
             <Route path="checkout" element={<Checkout />}></Route>
+            <Route path="order-complete" element={<OrderComplete />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -143,7 +143,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            <Link to={"/"} className="hidden lg:block">
+            <Link to={"/order-complete"} className="hidden lg:block">
               <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5">
                 Place Order
               </p>
@@ -221,7 +221,7 @@ const Checkout = () => {
       </div>
       <div className="lg:hidden flex justify-center mb-4">
         <div className="w-4/5">
-          <Link to={"/"}>
+          <Link to={"/order-complete"}>
             <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5">
               Place Order
             </p>
