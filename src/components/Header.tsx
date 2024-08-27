@@ -218,7 +218,7 @@ const Header = () => {
           <ul className="mb-5">
             <li>
               <Link
-                to="/"
+                to="/cart"
                 className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between"
                 onClick={toggleMenu}
               >

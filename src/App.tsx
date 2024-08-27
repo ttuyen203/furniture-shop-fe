@@ -6,6 +6,7 @@ import ClientLayout from "./layouts/ClientLayout";
 import Shop from "./pages/client/Shop";
 import ProductDetail from "./pages/client/ProductDetail";
 import Cart from "./pages/client/Cart";
+import Checkout from "./pages/client/Checkout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               element={<ProductDetail />}
             ></Route>
             <Route path="cart" element={<Cart />}></Route>
+            <Route path="checkout" element={<Checkout />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

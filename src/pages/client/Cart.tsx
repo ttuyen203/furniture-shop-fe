@@ -12,13 +12,13 @@ const Cart = () => {
       <div className="flex justify-center mt-5 mb-10">
         <div className="w-4/5 lg:w-3/5 flex justify-between">
           <div className="flex gap-3 items-center border-b-2 border-black pb-5">
-            <p className="bg-black text-white w-10 text-center rounded-full py-2 px-4">
+            <p className="flex items-center justify-center bg-black text-white w-10 h-10 text-center rounded-full">
               1
             </p>
             <p className="font-semibold">Shopping cart</p>
           </div>
           <div className="lg:flex gap-3 items-center pb-5">
-            <p className="bg-[#B1B5C3] text-[#FCFCFD] w-10 text-center rounded-full py-2 px-4">
+            <p className="flex items-center justify-center bg-[#B1B5C3] text-[#FCFCFD] w-10 h-10 text-center rounded-full py-2 px-4">
               2
             </p>
             <p className="font-semibold text-[#B1B5C3] hidden lg:block">
@@ -26,7 +26,7 @@ const Cart = () => {
             </p>
           </div>
           <div className="hidden lg:flex gap-3 items-center pb-5">
-            <p className="bg-[#B1B5C3] text-[#FCFCFD] w-10 text-center rounded-full py-2 px-4">
+            <p className="flex items-center justify-center bg-[#B1B5C3] text-[#FCFCFD] w-10 h-10 text-center rounded-full py-2 px-4">
               3
             </p>
             <p className="font-semibold text-[#B1B5C3]">Order complete</p>
@@ -139,7 +139,7 @@ const Cart = () => {
                 <p className="font-semibold text-xl">Total</p>
                 <p className="font-semibold text-xl">$1345.00</p>
               </div>
-              <Link to={"/"}>
+              <Link to={"/checkout"}>
                 <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5">
                   Checkout
                 </p>
