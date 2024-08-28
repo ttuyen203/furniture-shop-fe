@@ -8,6 +8,8 @@ import ProductDetail from "./pages/client/ProductDetail";
 import Cart from "./pages/client/Cart";
 import Checkout from "./pages/client/Checkout";
 import OrderComplete from "./pages/client/OrderComplete";
+import Account from "./pages/client/account/Account";
+import AccountAddress from "./pages/client/account/AccountAddress";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
             <Route path="cart" element={<Cart />}></Route>
             <Route path="checkout" element={<Checkout />}></Route>
             <Route path="order-complete" element={<OrderComplete />}></Route>
+            <Route path="account" element={<Account />}></Route>
+            <Route path="account/address" element={<AccountAddress />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

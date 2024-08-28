@@ -48,7 +48,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     placeholder="First name"
-                    className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                    className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                   />
                 </div>
                 <div className="w-1/2">
@@ -61,7 +61,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     placeholder="Last name"
-                    className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                    className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                   />
                 </div>
               </div>
@@ -76,7 +76,7 @@ const Checkout = () => {
                 <input
                   type="text"
                   placeholder="Phone number"
-                  className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                  className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                 />
               </div>
               {/* Email */}
@@ -90,7 +90,7 @@ const Checkout = () => {
                 <input
                   type="text"
                   placeholder="Your Email"
-                  className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                  className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                 />
               </div>
             </div>
@@ -109,7 +109,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     placeholder="Stress Address"
-                    className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                    className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ const Checkout = () => {
                 <input
                   type="text"
                   placeholder="Country"
-                  className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                  className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                 />
               </div>
               {/* Town / City */}
@@ -138,7 +138,7 @@ const Checkout = () => {
                 <input
                   type="text"
                   placeholder="Town / City"
-                  className="border placeholder:text-[#6C7275] py-1 px-2 rounded-md border-[#CBCBCB] w-full"
+                  className="border placeholder:text-[#6C7275] py-1 px-3 rounded-md border-[#CBCBCB] w-full"
                 />
               </div>
             </div>

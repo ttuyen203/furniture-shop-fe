@@ -307,7 +307,7 @@ const Header = () => {
                 className="text-gray-700 hover:text-black transition-colors"
               />
             </Link>
-            <Link to={"/"} className="hidden relative md:flex items-center">
+            <Link to={"/account"} className="hidden relative md:flex items-center">
               <FaRegCircleUser
                 size={22}
                 className="text-gray-700 hover:text-black transition-colors"
