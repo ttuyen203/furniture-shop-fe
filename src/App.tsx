@@ -10,6 +10,8 @@ import Checkout from "./pages/client/Checkout";
 import OrderComplete from "./pages/client/OrderComplete";
 import Account from "./pages/client/account/Account";
 import AccountAddress from "./pages/client/account/AccountAddress";
+import Orders from "./pages/client/account/Orders";
+import Wishlist from "./pages/client/account/Wishlist";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             <Route path="order-complete" element={<OrderComplete />}></Route>
             <Route path="account" element={<Account />}></Route>
             <Route path="account/address" element={<AccountAddress />}></Route>
+            <Route path="account/orders" element={<Orders />}></Route>
+            <Route path="account/wishlist" element={<Wishlist />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
