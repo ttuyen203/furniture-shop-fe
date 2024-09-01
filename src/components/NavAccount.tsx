@@ -1,10 +1,31 @@
 import { useState } from "react";
 import { HiCamera } from "react-icons/hi2";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const NavAccount = () => {
   const [isOpenSelectMenu, setIsOpenSelectMenu] = useState(false);
+
+  // Sử dụng useLocation để lấy đường dẫn hiện tại của trang
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  // Mảng các mục menu với tên và đường dẫn tương ứng
+  const menuItems = [
+    { name: "Account", path: "/account" },
+    { name: "Address", path: "/account/address" },
+    { name: "Orders", path: "/account/orders" },
+    { name: "Wishlist", path: "/account/wishlist" },
+    { name: "Log Out", path: "/" },
+  ];
+
+  // Xác định mục menu hiện tại dựa trên đường dẫn
+  const currentMenuItem = menuItems.find((item) => item.path === currentPath);
+
+  // Lọc ra các mục menu mà không trùng với đường dẫn hiện tại để tránh trùng lặp trong mobile menu
+  const filteredMenuItems = menuItems.filter(
+    (item) => item.path !== currentPath
+  );
 
   return (
     <>
@@ -24,7 +45,6 @@ const NavAccount = () => {
               </div>
             </Link>
           </div>
-          {/* Name */}
           <div>
             <p className="text-xl font-semibold text-center mt-2">
               Sofia Havertz
@@ -33,23 +53,19 @@ const NavAccount = () => {
 
           {/* Nav */}
           <div className="hidden lg:block px-5 mt-10">
-            <Link to={"/account"}>
-              <p className="font-semibold border-b border-black pb-2">
-                Account
-              </p>
-            </Link>
-            <Link to={"/account/address"}>
-              <p className="font-semibold text-[#6C7275] mt-3">Address</p>
-            </Link>
-            <Link to={"/account/orders"}>
-              <p className="font-semibold text-[#6C7275] mt-3">Orders</p>
-            </Link>
-            <Link to={"/account/wishlist"}>
-              <p className="font-semibold text-[#6C7275] mt-3">Wishlist</p>
-            </Link>
-            <Link to={"/"}>
-              <p className="font-semibold text-[#6C7275] mt-3">Log Out</p>
-            </Link>
+            {menuItems.map((item) => (
+              <Link key={item.path} to={item.path}>
+                <p
+                  className={`font-semibold mt-3 ${
+                    currentPath === item.path
+                      ? "border-b border-black pb-2"
+                      : "text-[#6C7275]"
+                  }`}
+                >
+                  {item.name}
+                </p>
+              </Link>
+            ))}
           </div>
 
           {/* Nav Mobile */}
@@ -59,17 +75,19 @@ const NavAccount = () => {
                 onClick={() => setIsOpenSelectMenu(!isOpenSelectMenu)}
                 className="w-full text-base font-semibold px-2 flex items-center justify-between"
               >
-                Account
+                {currentMenuItem ? currentMenuItem.name : "Account"}
                 <MdKeyboardArrowDown size={20} />
               </button>
             </div>
             {isOpenSelectMenu && (
               <div className="w-full border-2 mt-1 p-2 rounded-lg bg-white">
-                <Link to={"/account/address"}>
-                  <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
-                    Address
-                  </p>
-                </Link>
+                {filteredMenuItems.map((item) => (
+                  <Link key={item.path} to={item.path}>
+                    <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
+                      {item.name}
+                    </p>
+                  </Link>
+                ))}
               </div>
             )}
           </div>
