@@ -12,6 +12,11 @@ import Account from "./pages/client/account/Account";
 import AccountAddress from "./pages/client/account/AccountAddress";
 import Orders from "./pages/client/account/Orders";
 import Wishlist from "./pages/client/account/Wishlist";
+import AdminLayout from "./layouts/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import CategoryPage from "./pages/admin/CategoryPage";
+import ProductPage from "./pages/admin/ProductPage";
+import OrderPage from "./pages/admin/OrderPage";
 
 function App() {
   return (
@@ -37,6 +42,14 @@ function App() {
             <Route path="account/address" element={<AccountAddress />}></Route>
             <Route path="account/orders" element={<Orders />}></Route>
             <Route path="account/wishlist" element={<Wishlist />}></Route>
+          </Route>
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />}></Route>
+            <Route path="dashboard" element={<Dashboard />}></Route>
+            <Route path="categories" element={<CategoryPage />}></Route>
+            <Route path="products" element={<ProductPage />}></Route>
+            <Route path="order-lists" element={<OrderPage />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
