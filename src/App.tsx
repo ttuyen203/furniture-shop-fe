@@ -14,13 +14,17 @@ import Orders from "./pages/client/account/Orders";
 import Wishlist from "./pages/client/account/Wishlist";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
-import CategoryPage from "./pages/admin/CategoryPage";
 import ProductPage from "./pages/admin/ProductPage";
 import OrderPage from "./pages/admin/OrderPage";
+import { Toaster } from "react-hot-toast";
+import CategoryAdd from "./pages/admin/category/CategoryAdd";
+import CategoryList from "./pages/admin/category/CategoryList";
+import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 
 function App() {
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
           {/* Auth Routes */}
@@ -47,7 +51,9 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />}></Route>
             <Route path="dashboard" element={<Dashboard />}></Route>
-            <Route path="categories" element={<CategoryPage />}></Route>
+            <Route path="categories" element={<CategoryList />}></Route>
+            <Route path="categories/add" element={<CategoryAdd />}></Route>
+            <Route path="categories/:id/update" element={<CategoryUpdate />}></Route>
             <Route path="products" element={<ProductPage />}></Route>
             <Route path="order-lists" element={<OrderPage />}></Route>
           </Route>
