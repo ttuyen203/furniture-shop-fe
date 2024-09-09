@@ -24,11 +24,15 @@ const Sidebar = () => {
       path: "/admin/products",
       icon: <MdOutlineBorderAll size={20} />,
     },
-    { name: "Order List", path: "/admin/order-lists", icon: <LuListChecks size={20} /> },
+    {
+      name: "Order List",
+      path: "/admin/order-lists",
+      icon: <LuListChecks size={20} />,
+    },
   ];
 
   return (
-    <div className="fixed top-0 left-0 z-40 w-64 h-screen">
+    <div className="hidden md:block fixed top-0 left-0 z-40 w-64 h-screen">
       {/* logo */}
       <Link to={"/"}>
         <p className="text-center font-semibold text-xl mt-3 mb-3">3legant.</p>
@@ -40,7 +44,13 @@ const Sidebar = () => {
           <div className="px-8">
             <div
               className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
-                currentPath === item.path ? "text-white bg-[#4880FF]" : ""
+                item.path === "/admin"
+                  ? currentPath === item.path
+                    ? "text-white bg-[#4880FF]"
+                    : ""
+                  : currentPath.startsWith(item.path)
+                  ? "text-white bg-[#4880FF]"
+                  : ""
               }`}
             >
               {item.icon}

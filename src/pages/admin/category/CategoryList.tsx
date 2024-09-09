@@ -5,6 +5,8 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 import toast from "react-hot-toast";
 import TopBar from "../../../components/TopBar";
+import { FaPenToSquare, FaRegTrashCan } from "react-icons/fa6";
+import { FaEye } from "react-icons/fa";
 
 const CategoryList = () => {
   const [data, setData] = useState<Category[]>([]);
@@ -70,7 +72,7 @@ const CategoryList = () => {
           <table className="min-w-full bg-white">
             <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider">
               <tr>
-                <th className="py-3 px-6">ID</th>
+                <th className="hidden lg:block py-3 px-6">ID</th>
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Status</th>
                 <th className="py-3 px-6">Actions</th>
@@ -82,11 +84,13 @@ const CategoryList = () => {
                   className="bg-white border-b border-[#d5d5d5] hover:bg-gray-50 transition"
                   key={d._id}
                 >
-                  <td className="py-4 px-6 text-sm font-medium text-[#202224]">
+                  <td className="hidden lg:block py-4 px-6 text-sm font-medium text-[#202224]">
                     {d._id}
                   </td>
                   <td className="py-4 px-6 text-sm font-medium text-[#202224]">
-                    {d.name}
+                    <Link to={"/"} className="hover:underline">
+                      {d.name}
+                    </Link>
                   </td>
                   <td className="py-4 px-6 text-sm">
                     {d.status ? (
@@ -99,22 +103,22 @@ const CategoryList = () => {
                       </span>
                     )}
                   </td>
-                  <td className="py-4 px-6 text-sm flex gap-3">
+                  <td className="py-4 px-6 text-sm flex items-center gap-1.5 lg:gap-3">
                     <Link to={"/"}>
-                      <div className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-lg text-xs font-semibold hover:bg-yellow-300 transition">
-                        View
+                      <div className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-lg text-xs lg:text-base font-semibold hover:bg-yellow-300 transition">
+                        <FaEye />
                       </div>
                     </Link>
                     <Link to={`/admin/categories/${d.slug}/update`}>
-                      <div className="bg-blue-200 text-blue-800 px-3 py-1 rounded-lg text-xs font-semibold hover:bg-blue-300 transition">
-                        Update
+                      <div className="bg-blue-200 text-blue-800 px-3 py-1 rounded-lg text-xs lg:text-base font-semibold hover:bg-blue-300 transition">
+                        <FaPenToSquare />
                       </div>
                     </Link>
                     <div
-                      className="bg-red-200 text-red-800 px-3 py-1 rounded-lg cursor-pointer text-xs font-semibold hover:bg-red-300 transition"
+                      className="bg-red-200 text-red-800 px-3 py-1 rounded-lg cursor-pointer text-xs lg:text-base font-semibold hover:bg-red-300 transition"
                       onClick={() => handleDelete(d._id)}
                     >
-                      Delete
+                      <FaRegTrashCan />
                     </div>
                   </td>
                 </tr>
