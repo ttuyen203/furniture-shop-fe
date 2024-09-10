@@ -4,23 +4,53 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { Product } from "../../types/Product";
+import axios from "axios";
+import BASE_URL from "../../config";
+import toast from "react-hot-toast";
+import { Category } from "../../types/Category";
 
 const Shop = () => {
   const [isOpenSelectCategory, setIsOpenSelectCategory] = useState(false);
   const [isOpenSelectPrice, setIsOpenSelectPrice] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("Living Room");
-  const [selectedPrice, setSelectedPrice] = useState("Living Room");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedPrice, setSelectedPrice] = useState("All Price");
 
-  const categories = ["Living Room", "Bedroom", "Kitchen", "Office", "Outdoor"];
+  const [data, setData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + "/products")
+      .then((res) => {
+        console.log(res.data.data);
+        setData(res.data.data);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+
+    axios
+      .get(BASE_URL + "/categories")
+      .then((res) => {
+        console.log(res.data.data);
+        setCategories(res.data.data);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  }, []);
+
   const prices = ["All Price", "$100 - $300"];
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
     setIsOpenSelectCategory(false);
   };
-  const handlePriceClick = (price) => {
+
+  const handlePriceClick = (price: string) => {
     setSelectedPrice(price);
     setIsOpenSelectPrice(false);
   };
@@ -82,11 +112,11 @@ const Shop = () => {
                 <div className="w-full border-2 mt-1 p-2 rounded-lg">
                   {categories.map((category) => (
                     <p
-                      key={category}
-                      onClick={() => handleCategoryClick(category)}
+                      key={category._id}
+                      onClick={() => handleCategoryClick(category.name)}
                       className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer"
                     >
-                      {category}
+                      {category.name}
                     </p>
                   ))}
                 </div>
@@ -200,643 +230,50 @@ const Shop = () => {
       {/* List Product */}
       <div className="flex justify-center mt-9">
         <div className="w-4/5">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {data.map((d) => (
+              <div className="group" key={d._id}>
+                <div className="w-full relative">
+                  <div className="absolute p-4">
+                    {/* tag new */}
+                    <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
+                      NEW
                     </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
+                    {/* tag sale */}
+                    <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
+                      -50%
                     </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
                   </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
+                  <div className="absolute p-4 right-0">
+                    <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
+                      <AiOutlineHeart size={20} color="#6c7275" />
                     </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
                   </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
+                  <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Link to={"/"} className="text-center">
+                      <div className="bg-black text-white px-14 py-2 rounded-lg">
+                        <p className="w-24">Add to cart</p>
+                      </div>
+                    </Link>
                   </div>
+                  <img src={d.images} alt="" className="w-full" />
                 </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
+                <div className="mt-3">
+                  <div className="flex gap-1 pb-2">
+                    <FaStar size={18} />
+                    <FaStar size={18} />
+                    <FaStar size={18} />
+                    <FaStar size={18} />
+                    <FaStar size={18} />
                   </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
+                  <div className="text-base font-semibold pb-1">{d.name}</div>
+                  <div className="flex gap-2">
+                    <div className="font-semibold">${d.price}</div>
+                    {/* <div className="line-through text-[#6c7275]">$400.00</div> */}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="group">
-              <div className="w-full relative">
-                <div className="absolute p-4">
-                  {/* tag new */}
-                  <div className="bg-white text-black font-medium w-14 text-center rounded-md mb-2">
-                    NEW
-                  </div>
-                  {/* tag sale */}
-                  <div className="bg-[#38cb89] text-white font-medium w-14 text-center rounded-md">
-                    -50%
-                  </div>
-                </div>
-                <div className="absolute p-4 right-0">
-                  <div className="rounded-full shadow-lg p-1 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <AiOutlineHeart size={20} color="#6c7275" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-end mb-3 lg:mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  {/* btn add to cart mobile */}
-                  <Link to={"/"} className="text-center block lg:hidden">
-                    <p className="bg-black text-white py-1.5 px-5 rounded-md text-sm">
-                      Add to cart
-                    </p>
-                  </Link>
-                  <Link to={"/"} className="text-center hidden lg:block">
-                    <div className="bg-black text-white px-14 py-2 rounded-lg">
-                      <p className="w-24">Add to cart</p>
-                    </div>
-                  </Link>
-                </div>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1723660329/furniture-shop/sofa_vh2fjn.png"
-                  alt=""
-                  className="w-full"
-                />
-              </div>
-              <div className="mt-3">
-                <div className="flex gap-1 pb-2">
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                  <FaStar size={18} />
-                </div>
-                <div className="text-base font-semibold pb-1">
-                  Loveseat Sofa
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">$199.00</div>
-                  <div className="line-through text-[#6c7275]">$400.00</div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="flex justify-center mt-10 mb-5 lg:mt-16 lg:mb-16">
