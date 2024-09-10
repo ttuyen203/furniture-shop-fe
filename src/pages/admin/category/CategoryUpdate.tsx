@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import TopBar from "../../../components/TopBar";
 
 const CategoryUpdate = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const {
     register,
@@ -18,12 +18,12 @@ const CategoryUpdate = () => {
   } = useForm<Category>();
 
   useEffect(() => {
-    axios.get(BASE_URL + "/categories/" + id).then((res) => {
+    axios.get(BASE_URL + "/categories/" + slug).then((res) => {
       //   console.log("Data", res);
       setValue("name", res.data.data.name);
       setValue("status", res.data.data.status);
     });
-  }, [setValue, id]);
+  }, [setValue, slug]);
 
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const CategoryUpdate = () => {
     console.log(data);
 
     axios
-      .put(BASE_URL + "/categories/" + id, data)
+      .put(BASE_URL + "/categories/" + slug, data)
       .then(() => {
         toast.success("Update successfully!");
         navigate("/admin/categories");

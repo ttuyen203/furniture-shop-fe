@@ -14,7 +14,7 @@ import Newsletter from "../../components/Newsletter";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 
-const ProductDetail = () => {
+const Detail = () => {
   return (
     <>
       {/* breadcrumb */}
@@ -478,4 +478,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default Detail;

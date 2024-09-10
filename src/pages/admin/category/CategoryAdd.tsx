@@ -26,7 +26,7 @@ const CategoryAdd = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Add failed!");
+        toast.error(err.response?.data?.message);
       });
   };
 
