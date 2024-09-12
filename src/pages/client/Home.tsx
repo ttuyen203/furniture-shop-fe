@@ -178,20 +178,22 @@ const Home = () => {
                   </div>
                   <img src={d.images} alt="" className="w-full" />
                 </div>
-                <div className="mt-3">
-                  <div className="flex gap-1 pb-2">
-                    <FaStar size={18} />
-                    <FaStar size={18} />
-                    <FaStar size={18} />
-                    <FaStar size={18} />
-                    <FaStar size={18} />
+                <Link to={`/product-detail/${d.slug}`}>
+                  <div className="mt-3">
+                    <div className="flex gap-1 pb-2">
+                      <FaStar size={18} />
+                      <FaStar size={18} />
+                      <FaStar size={18} />
+                      <FaStar size={18} />
+                      <FaStar size={18} />
+                    </div>
+                    <div className="text-base font-semibold pb-1">{d.name}</div>
+                    <div className="flex gap-2">
+                      <div className="font-semibold">${d.price}</div>
+                      {/* <div className="line-through text-[#6c7275]">$400.00</div> */}
+                    </div>
                   </div>
-                  <div className="text-base font-semibold pb-1">{d.name}</div>
-                  <div className="flex gap-2">
-                    <div className="font-semibold">${d.price}</div>
-                    {/* <div className="line-through text-[#6c7275]">$400.00</div> */}
-                  </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>

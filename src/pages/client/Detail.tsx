@@ -1,5 +1,5 @@
 import { FaStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FiMinus } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
@@ -13,8 +13,32 @@ import "swiper/css/navigation";
 import Newsletter from "../../components/Newsletter";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import BASE_URL from "../../config";
+import { Product } from "../../types/Product";
 
 const Detail = () => {
+  const { id } = useParams();
+
+  const [data, setData] = useState<Product | undefined>(undefined);
+  const [quantity, setQuantity] = useState(1);
+
+  const handleChangeQuantity = (change: number) => {
+    setQuantity((prev) => Math.max(prev + change, 1));
+  };
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + `/products/${id}`)
+      .then((res) => {
+        console.log(res.data.data);
+        setData(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
   return (
     <>
       {/* breadcrumb */}
@@ -23,7 +47,7 @@ const Detail = () => {
           <div className="text-sm font-medium text-[#605F5F] flex items-center gap-3">
             <p>Home {">"}</p>
             <p>Shop {">"}</p>
-            <p>Living Room {">"}</p>
+            {/* <p>Living Room {">"}</p> */}
             <p className="text-[#121212]">Product</p>
           </div>
         </div>
@@ -34,41 +58,8 @@ const Detail = () => {
         <div className="w-4/5 flex flex-col lg:flex-row gap-8 lg:gap-16 ">
           {/*List Image Product */}
           <div className="hidden lg:grid lg:grid-cols-2 gap-7 w-full lg:w-2/4">
-            <div className="max-w-[262px] ">
-              <img
-                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                alt=""
-              />
-            </div>
             <div className="max-w-[262px]">
-              <img
-                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                alt=""
-              />
-            </div>
-            <div className="max-w-[262px]">
-              <img
-                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                alt=""
-              />
-            </div>
-            <div className="max-w-[262px]">
-              <img
-                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                alt=""
-              />
-            </div>
-            <div className="max-w-[262px]">
-              <img
-                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                alt=""
-              />
-            </div>
-            <div className="max-w-[262px]">
-              <img
-                src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                alt=""
-              />
+              <img src={data?.images} alt="Product Image" />
             </div>
           </div>
           {/* List Image Product Mobile */}
@@ -91,21 +82,7 @@ const Detail = () => {
             >
               <SwiperSlide className="w-full">
                 <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                  alt="Product Image"
-                  className="w-full h-auto object-cover"
-                />
-              </SwiperSlide>
-              <SwiperSlide className="w-full">
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
-                  alt="Product Image"
-                  className="w-full h-auto object-cover"
-                />
-              </SwiperSlide>
-              <SwiperSlide className="w-full">
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724506547/furniture-shop/product-detail_y6mjuc.png"
+                  src={data?.images}
                   alt="Product Image"
                   className="w-full h-auto object-cover"
                 />
@@ -135,21 +112,20 @@ const Detail = () => {
               </Link>
             </div>
             {/* Name */}
-            <p className="text-[40px]  font-medium mt-2">Tray Table</p>
+            <p className="text-[40px]  font-medium mt-2">{data?.name}</p>
             {/* Desc */}
             <p className="text-base font-normal text-[#6C7275] mt-2 text-justify">
-              Buy one or buy a few and make every space where you sit more
-              convenient. Light and easy to move around with removable tray top,
-              handy for serving snacks.
+              {data?.desc}
             </p>
             {/* Price */}
             <p className="text-[28px] font-medium mt-4">
-              $199.00{" "}
-              <span className="text-xl font-medium text-[#6C7275] line-through">
+              ${data?.price}
+              {/* <span className="text-xl font-medium text-[#6C7275] line-through">
                 $400.00
-              </span>
+              </span> */}
             </p>
             <hr className="border mt-3" />
+            {/* Measurements */}
             <div className="mt-3">
               <p className="text-base font-semibold text-[#6C7275]">
                 Measurements
@@ -184,9 +160,9 @@ const Detail = () => {
             <div className="mt-10">
               <div className="flex justify-between">
                 <div className="bg-[#F5F5F5] rounded-lg w-1/4 p-3 flex items-center gap-2 lg:gap-8 justify-center">
-                  <FiMinus />
-                  <p className="text-base font-semibold">1</p>
-                  <FiPlus />
+                  <FiMinus onClick={() => {handleChangeQuantity(-1)}}/>
+                  <p className="text-base font-semibold">{quantity}</p>
+                  <FiPlus onClick={() => {handleChangeQuantity(1)}}/>
                 </div>
                 <Link
                   to={"/"}
