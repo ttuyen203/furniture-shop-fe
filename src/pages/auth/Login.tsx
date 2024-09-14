@@ -20,6 +20,7 @@ const Login = () => {
       .then((res) => {
         const token = res.data.token;
         localStorage.setItem("accessToken", token);
+        localStorage.setItem("userId", res.data.data._id);
         toast.success("Login successful!");
         navigate("/");
       })

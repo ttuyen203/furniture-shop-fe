@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import Home from "./pages/client/Home";
@@ -14,7 +14,7 @@ import Wishlist from "./pages/client/account/Wishlist";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import OrderPage from "./pages/admin/OrderPage";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import CategoryAdd from "./pages/admin/category/CategoryAdd";
 import CategoryList from "./pages/admin/category/CategoryList";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
@@ -23,6 +23,23 @@ import Detail from "./pages/client/Detail";
 import ProductDetail from "./pages/admin/product/ProductDetail";
 import ProductAdd from "./pages/admin/product/ProductAdd";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
+import { ReactNode, useEffect } from "react";
+
+const PrivateRoute = ({ children }: { children: ReactNode }) => {
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    if (!token) {
+      toast.error("Please log in to continue!");
+    }
+  }, [token]);
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
 
 function App() {
   return (
@@ -31,43 +48,54 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Auth Routes */}
-          <Route path="register" element={<Register />}></Route>
-          <Route path="login" element={<Login />}></Route>
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
           {/* Client Routes */}
-          <Route path="/" element={<ClientLayout />}>
-            <Route index element={<Home />}></Route>
-            <Route path="home" element={<Home />}></Route>
-            <Route path="shop" element={<Shop />}></Route>
-            <Route path="product-detail/:id" element={<Detail />}></Route>
-            <Route path="cart" element={<Cart />}></Route>
-            <Route path="checkout" element={<Checkout />}></Route>
-            <Route path="order-complete" element={<OrderComplete />}></Route>
-            <Route path="account" element={<Account />}></Route>
-            <Route path="account/address" element={<AccountAddress />}></Route>
-            <Route path="account/orders" element={<Orders />}></Route>
-            <Route path="account/wishlist" element={<Wishlist />}></Route>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <ClientLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Home />} />
+            <Route path="home" element={<Home />} />
+            <Route path="shop" element={<Shop />} />
+            <Route path="product-detail/:id" element={<Detail />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="order-complete" element={<OrderComplete />} />
+            <Route path="account" element={<Account />} />
+            <Route path="account/address" element={<AccountAddress />} />
+            <Route path="account/orders" element={<Orders />} />
+            <Route path="account/wishlist" element={<Wishlist />} />
           </Route>
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard />}></Route>
-            <Route path="dashboard" element={<Dashboard />}></Route>
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <AdminLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
             {/* Category */}
-            <Route path="categories" element={<CategoryList />}></Route>
-            <Route path="categories/add" element={<CategoryAdd />}></Route>
+            <Route path="categories" element={<CategoryList />} />
+            <Route path="categories/add" element={<CategoryAdd />} />
             <Route
               path="categories/:slug/update"
               element={<CategoryUpdate />}
-            ></Route>
+            />
             {/* Product */}
-            <Route path="products" element={<ProductList />}></Route>
-            <Route path="products/:slug" element={<ProductDetail />}></Route>
-            <Route path="products/add" element={<ProductAdd />}></Route>
-            <Route
-              path="products/:slug/update"
-              element={<ProductUpdate />}
-            ></Route>
+            <Route path="products" element={<ProductList />} />
+            <Route path="products/:slug" element={<ProductDetail />} />
+            <Route path="products/add" element={<ProductAdd />} />
+            <Route path="products/:slug/update" element={<ProductUpdate />} />
             {/* Order */}
-            <Route path="order-lists" element={<OrderPage />}></Route>
+            <Route path="order-lists" element={<OrderPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

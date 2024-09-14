@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../config";
 import { Product } from "../../types/Product";
+import toast from "react-hot-toast";
 
 const Detail = () => {
   const { id } = useParams();
@@ -32,13 +33,34 @@ const Detail = () => {
     axios
       .get(BASE_URL + `/products/${id}`)
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setData(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [id]);
+
+  const userId = localStorage.getItem("userId");
+  // console.log(userId);
+
+  const handleAddToCart = () => {
+    axios
+      .post(BASE_URL + "/carts", {
+        user: userId,
+        product: data?._id,
+        quantity,
+      })
+      .then((res) => {
+        toast.success("Add to cart successfully!");
+        window.location.reload();
+        console.log(res);
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || "Add to cart failed");
+      });
+  };
+
   return (
     <>
       {/* breadcrumb */}
@@ -160,9 +182,17 @@ const Detail = () => {
             <div className="mt-10">
               <div className="flex justify-between">
                 <div className="bg-[#F5F5F5] rounded-lg w-1/4 p-3 flex items-center gap-2 lg:gap-8 justify-center">
-                  <FiMinus onClick={() => {handleChangeQuantity(-1)}}/>
+                  <FiMinus
+                    onClick={() => {
+                      handleChangeQuantity(-1);
+                    }}
+                  />
                   <p className="text-base font-semibold">{quantity}</p>
-                  <FiPlus onClick={() => {handleChangeQuantity(1)}}/>
+                  <FiPlus
+                    onClick={() => {
+                      handleChangeQuantity(1);
+                    }}
+                  />
                 </div>
                 <Link
                   to={"/"}
@@ -172,12 +202,14 @@ const Detail = () => {
                   <p className="text-lg font-medium">Wishlist</p>
                 </Link>
               </div>
-              <Link
-                to={"/"}
+              <div
                 className="w-full bg-black mt-4 flex items-center justify-center rounded-lg p-3"
+                onClick={() => {
+                  handleAddToCart();
+                }}
               >
                 <p className="text-white text-lg font-medium">Add to Cart</p>
-              </Link>
+              </div>
             </div>
             {/*  */}
             <div className="mt-8">
