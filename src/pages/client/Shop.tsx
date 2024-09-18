@@ -25,7 +25,7 @@ const Shop = () => {
     axios
       .get(BASE_URL + "/products")
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setData(res.data.data);
       })
       .catch((err) => {
@@ -35,7 +35,7 @@ const Shop = () => {
     axios
       .get(BASE_URL + "/categories")
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setCategories(res.data.data);
       })
       .catch((err) => {
@@ -54,6 +54,29 @@ const Shop = () => {
     setSelectedPrice(price);
     setIsOpenSelectPrice(false);
   };
+
+  const handleAddToCart = (idProduct: string) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      toast.error("Please log in to add products to cart");
+      return;
+    }
+
+    axios
+      .post(BASE_URL + "/carts", {
+        user: userId,
+        product: idProduct,
+        quantity: 1,
+      })
+      .then((res) => {
+        console.log(res);
+        toast.success("Added to cart successfully!");
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || "Failed to add to cart");
+      });
+  };
+  
   return (
     <div>
       {/* Banner */}
@@ -250,11 +273,14 @@ const Shop = () => {
                     </div>
                   </div>
                   <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Link to={"/"} className="text-center">
-                      <div className="bg-black text-white px-14 py-2 rounded-lg">
-                        <p className="w-24">Add to cart</p>
-                      </div>
-                    </Link>
+                    <div
+                      className="bg-black text-white px-14 py-2 rounded-lg cursor-pointer text-center"
+                      onClick={() => {
+                        handleAddToCart(d._id);
+                      }}
+                    >
+                      <p className="w-24">Add to cart</p>
+                    </div>
                   </div>
                   <img src={d.images} alt="" className="w-full" />
                 </div>

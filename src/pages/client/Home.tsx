@@ -7,7 +7,7 @@ import { Product } from "../../types/Product";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../config";
-import toast from "react-hot-toast/headless";
+import { toast } from "react-hot-toast";
 
 const Home = () => {
   const [data, setData] = useState<Product[]>([]);
@@ -16,13 +16,36 @@ const Home = () => {
     axios
       .get(BASE_URL + "/products")
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setData(res.data.data);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
       });
   }, []);
+
+  const handleAddToCart = (idProduct: string) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      toast.error("Please log in to add products to cart");
+      return;
+    }
+
+    axios
+      .post(BASE_URL + "/carts", {
+        user: userId,
+        product: idProduct,
+        quantity: 1,
+      })
+      .then((res) => {
+        console.log(res);
+        toast.success("Added to cart successfully!");
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || "Failed to add to cart");
+      });
+  };
+
   return (
     <div>
       {/* Banner */}
@@ -170,11 +193,14 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="absolute inset-0 flex items-end mb-4 justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Link to={"/"} className="text-center">
-                      <div className="bg-black text-white px-14 py-2 rounded-lg">
-                        <p className="w-24">Add to cart</p>
-                      </div>
-                    </Link>
+                    <div
+                      className="bg-black text-white px-14 py-2 rounded-lg cursor-pointer text-center"
+                      onClick={() => {
+                        handleAddToCart(d._id);
+                      }}
+                    >
+                      <p className="w-24">Add to cart</p>
+                    </div>
                   </div>
                   <img src={d.images} alt="" className="w-full" />
                 </div>

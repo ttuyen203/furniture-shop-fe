@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CgShoppingBag } from "react-icons/cg";
-import { FaRegCircleUser } from "react-icons/fa6";
+import { FaRegCircleUser, FaTrashCan } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 import { BsList } from "react-icons/bs";
 import { IoCloseOutline } from "react-icons/io5";
-import { AiOutlineHeart } from "react-icons/ai";
 import { FiMinus } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
 import axios from "axios";
 import BASE_URL from "../config";
 import { Cart } from "../types/Cart";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ const Header = () => {
     axios
       .get(BASE_URL + `/carts/user/${userId}`)
       .then((res) => {
-        console.log("Cart data", res.data);
+        // console.log("Cart data", res.data);
         setDataCart(res.data);
       })
       .catch((err) => {
@@ -32,8 +32,10 @@ const Header = () => {
   }, [userId]);
 
   const totalAmount = dataCart?.products
-    ?.reduce((total, d) => total + d.product.price * d.quantity, 0)
+    ?.reduce((total, d) => total + d?.product?.price * d.quantity, 0)
     .toFixed(2);
+
+  const productInCart = dataCart?.products?.length ?? 0;
 
   const productViewMore = (dataCart?.products?.length ?? 0) - 2;
 
@@ -45,6 +47,50 @@ const Header = () => {
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  const handleDeleteProductInCart = (id: string) => {
+    // console.log("User ID:", userId);
+    // console.log("Product ID:", id);
+    toast(
+      (t) => (
+        <div className="p-2 w-full ">
+          <div className="flex justify-center mb-4">
+            <FaTrashCan size={30} className="text-red-600" />
+          </div>
+          <p className="text-lg text-center w-full">
+            Are you sure you want to delete this item?
+          </p>
+          <div className="flex justify-center gap-3 mt-4">
+            <button
+              className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+              onClick={() => {
+                axios
+                  .delete(BASE_URL + `/carts/user/${userId}/product/${id}`)
+                  .then(() => {
+                    toast.success("Product deleted successfully!");
+                    axios
+                      .get(BASE_URL + `/carts/user/${userId}`)
+                      .then((res) => setDataCart(res.data))
+                      .catch((err) => console.log(err));
+                  })
+                  .catch(() => toast.error("Failed to delete product"))
+                  .finally(() => toast.dismiss(t.id));
+              }}
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      ),
+      { duration: Infinity }
+    );
   };
 
   return (
@@ -63,44 +109,50 @@ const Header = () => {
             </button>
           </div>
           <div>
-            {dataCart?.products
-              ?.slice()
-              .reverse()
-              .slice(0, 2)
-              .map((d) => (
-                <div
-                  className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4"
-                  key={d._id}
-                >
-                  <div className="w-1/4">
-                    <img src={d.product.images} alt="" className="w-20" />
+            {((dataCart?.products?.length ?? 0) > 0 &&
+              dataCart?.products
+                ?.slice()
+                .reverse()
+                .slice(0, 2)
+                .map((d) => (
+                  <div
+                    className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4"
+                    key={d._id}
+                  >
+                    <div className="w-1/4">
+                      <img src={d?.product?.images} alt="" className="w-20" />
+                    </div>
+                    <div className="w-3/4">
+                      <div className="flex text-sm font-semibold justify-between mb-1">
+                        <p>{d?.product?.name}</p>
+                        <p>${d?.product?.price}</p>
+                      </div>
+                      <div className="flex justify-between mb-1 text-xs font-normal text-[#6C7275]">
+                        <p>Status: New</p>
+                        <IoCloseOutline
+                          size={20}
+                          className="cursor-pointer active:bg-[#dde2e5]"
+                          onClick={() =>
+                            handleDeleteProductInCart(d.product._id)
+                          }
+                        />
+                      </div>
+                      <div className="border border-[#6c7275] rounded-md p-2 flex justify-center items-center gap-3 w-[30%]">
+                        <FiMinus
+                          className="cursor-pointer active:bg-[#dde2e5]"
+                          size={20}
+                        />
+                        <div className="font-semibold text-xs">
+                          {d.quantity}
+                        </div>
+                        <FiPlus
+                          className="cursor-pointer active:bg-[#dde2e5]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-3/4">
-                    <div className="flex text-sm font-semibold justify-between mb-1">
-                      <p>{d.product.name}</p>
-                      <p>${d.product.price * d.quantity}</p>
-                    </div>
-                    <div className="flex justify-between mb-1 text-xs font-normal text-[#6C7275]">
-                      <p>New</p>
-                      <IoCloseOutline
-                        size={20}
-                        className="cursor-pointer active:bg-[#dde2e5]"
-                      />
-                    </div>
-                    <div className="border border-[#6c7275] rounded-md p-2 flex justify-center items-center gap-3 w-[30%]">
-                      <FiMinus
-                        className="cursor-pointer active:bg-[#dde2e5]"
-                        size={20}
-                      />
-                      <div className="font-semibold text-xs">{d.quantity}</div>
-                      <FiPlus
-                        className="cursor-pointer active:bg-[#dde2e5]"
-                        size={20}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )) || <p>No products in the cart</p>}
+                ))) || <p>No products in the cart</p>}
             {productViewMore > 0 && (
               <Link
                 to={"/cart"}
@@ -108,7 +160,7 @@ const Header = () => {
                   setIsCartOpen(false);
                 }}
               >
-                <div className="flex justify-center items-center mt-8 text-sm font-semibold">
+                <div className="flex justify-center items-center mt-6 text-sm font-semibold">
                   <p className="border-2 rounded-lg border-[#ccc] py-1 px-4">
                     View more {productViewMore} product
                     {productViewMore !== 1 ? "s" : ""}
@@ -254,16 +306,13 @@ const Header = () => {
             </li>
             <li>
               <Link
-                to="/"
+                to="/account"
                 className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between"
                 onClick={toggleMenu}
               >
-                Wishlist
+                Account
                 <div className="flex gap-1">
-                  <AiOutlineHeart size={20} />
-                  <div className="bg-black text-white w-5 h-5 text-center flex items-center justify-center rounded-full text-xs">
-                    <p>3</p>
-                  </div>
+                  <FaRegCircleUser size={20} />
                 </div>
               </Link>
             </li>
@@ -341,7 +390,7 @@ const Header = () => {
                   />
                 </div>
                 <div className="bg-black text-white w-5 h-5 text-center flex items-center justify-center rounded-full text-xs">
-                  <p>3</p>
+                  <p>{productInCart}</p>
                 </div>
               </div>
             </div>

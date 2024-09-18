@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const OrderComplete = () => {
+  const location = useLocation();
+  const orderData = location.state?.orderData || [];
+
   return (
     <>
       <div className="flex justify-center">
@@ -40,43 +43,13 @@ const OrderComplete = () => {
               Your order has been received
             </p>
 
-            <div className="flex flex-wrap justify-center gap-1 space-x-6 mt-6">
-              <div className="relative w-1/3 max-w-[71px]">
-                <p className="absolute -top-2 -right-2 bg-black text-white w-5 h-5 flex justify-center items-center rounded-full text-xs">
-                  2
-                </p>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724512951/furniture-shop/color-product-2_pbyhto.png"
-                  alt="Product 1"
-                />
-              </div>
-              <div className="relative w-1/3 max-w-[71px]">
-                <p className="absolute -top-2 -right-2 bg-black text-white w-5 h-5 flex justify-center items-center rounded-full text-xs">
-                  2
-                </p>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724512951/furniture-shop/color-product-2_pbyhto.png"
-                  alt="Product 2"
-                />
-              </div>
-              <div className="relative w-1/3 max-w-[71px]">
-                <p className="absolute -top-2 -right-2 bg-black text-white w-5 h-5 flex justify-center items-center rounded-full text-xs">
-                  1
-                </p>
-                <img
-                  src="https://res.cloudinary.com/dymajn3ys/image/upload/v1724512951/furniture-shop/color-product-2_pbyhto.png"
-                  alt="Product 3"
-                />
-              </div>
-            </div>
-
             <div className="flex justify-center mt-5">
               <div className="w-2/3">
                 <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 lg:justify-between mt-3 border-b lg:border-b-0 pb-2 lg:pb-0">
                   <p className="text-sm font-semibold text-[#6C7275]">
                     Order code:
                   </p>
-                  <p className="text-sm font-semibold">#0123_45678</p>
+                  <p className="text-sm font-semibold">{orderData.data._id}</p>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 lg:justify-between mt-3 border-b lg:border-b-0 pb-2 lg:pb-0">
                   <p className="text-sm font-semibold text-[#6C7275]">Date:</p>
@@ -84,20 +57,24 @@ const OrderComplete = () => {
                 </div>
                 <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 lg:justify-between mt-3 border-b lg:border-b-0 pb-2 lg:pb-0">
                   <p className="text-sm font-semibold text-[#6C7275]">Total:</p>
-                  <p className="text-sm font-semibold">$1,345.00</p>
+                  <p className="text-sm font-semibold">
+                    ${orderData.data.totalAmount}
+                  </p>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 lg:justify-between mt-3 border-b lg:border-b-0 pb-2 lg:pb-0">
                   <p className="text-sm font-semibold text-[#6C7275]">
                     Payment method:
                   </p>
-                  <p className="text-sm font-semibold">Credit Card</p>
+                  <p className="text-sm font-semibold">
+                    {orderData.data.payment}
+                  </p>
                 </div>
               </div>
             </div>
 
             <div className="flex justify-center">
               <div className="w-3/5">
-                <Link to={"/order-complete"}>
+                <Link to={"/account/orders"}>
                   <p className="bg-black font-medium text-white p-3 rounded-3xl text-center mt-10">
                     Purchase history
                   </p>

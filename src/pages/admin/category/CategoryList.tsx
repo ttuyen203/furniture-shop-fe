@@ -11,10 +11,15 @@ const CategoryList = () => {
   const [data, setData] = useState<Category[]>([]);
 
   useEffect(() => {
-    axios.get<ApiResCate>(BASE_URL + "/categories").then((res) => {
-      setData(res.data.data);
-      // console.log(res.data.data);
-    });
+    axios
+      .get<ApiResCate>(BASE_URL + "/categories")
+      .then((res) => {
+        setData(res.data.data);
+        // console.log(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleDelete = (categorySlug: string) => {
@@ -38,7 +43,14 @@ const CategoryList = () => {
                   .delete(`${BASE_URL}/categories/${categorySlug}`)
                   .then(() => {
                     toast.success("Category deleted successfully!");
-                    window.location.reload();
+                    axios
+                      .get<ApiResCate>(BASE_URL + "/categories")
+                      .then((res) => {
+                        setData(res.data.data);
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
                   })
                   .catch(() => toast.error("Failed to delete category"))
                   .finally(() => toast.dismiss(t.id));

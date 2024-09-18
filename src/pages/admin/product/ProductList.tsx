@@ -12,10 +12,15 @@ const ProductList = () => {
   const [data, setData] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get<ApiResProduct>(BASE_URL + "/products").then((res) => {
-      setData(res.data.data);
-      console.log(res.data.data);
-    });
+    axios
+      .get<ApiResProduct>(BASE_URL + "/products")
+      .then((res) => {
+        setData(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleDelete = (productSlug: string) => {
@@ -39,7 +44,15 @@ const ProductList = () => {
                   .delete(`${BASE_URL}/products/${productSlug}`)
                   .then(() => {
                     toast.success("Product deleted successfully!");
-                    window.location.reload();
+                    axios
+                      .get<ApiResProduct>(BASE_URL + "/products")
+                      .then((res) => {
+                        setData(res.data.data);
+                        console.log(res.data.data);
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
                   })
                   .catch(() => toast.error("Failed to delete product"))
                   .finally(() => toast.dismiss(t.id));
@@ -70,7 +83,7 @@ const ProductList = () => {
           <table className="min-w-full bg-white">
             <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider">
               <tr>
-                <th className="py-3 px-6">STT</th> 
+                <th className="py-3 px-6">STT</th>
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Price</th>
                 <th className="py-3 px-6">Stock</th>

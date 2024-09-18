@@ -53,7 +53,6 @@ const Detail = () => {
       })
       .then((res) => {
         toast.success("Add to cart successfully!");
-        window.location.reload();
         console.log(res);
       })
       .catch((err) => {
