@@ -25,7 +25,7 @@ const Sidebar = () => {
       icon: <MdOutlineBorderAll size={20} />,
     },
     {
-      name: "Order List",
+      name: "Order Lists",
       path: "/admin/order-lists",
       icon: <LuListChecks size={20} />,
     },

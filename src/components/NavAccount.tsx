@@ -1,16 +1,17 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { HiCamera } from "react-icons/hi2";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NavAccount = () => {
   const [isOpenSelectMenu, setIsOpenSelectMenu] = useState(false);
 
-  // Sử dụng useLocation để lấy đường dẫn hiện tại của trang
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // Mảng các mục menu với tên và đường dẫn tương ứng
+  const navigate = useNavigate();
+
   const menuItems = [
     { name: "Account", path: "/account" },
     { name: "Address", path: "/account/address" },
@@ -19,12 +20,16 @@ const NavAccount = () => {
     { name: "Log Out", path: "/" },
   ];
 
-  // Xác định mục menu hiện tại dựa trên đường dẫn
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Logout successfully!");
+    navigate("/login");
+  };
+
   const currentMenuItem = menuItems.find((item) => item.path === currentPath);
 
-  // Lọc ra các mục menu mà không trùng với đường dẫn hiện tại để tránh trùng lặp trong mobile menu
   const filteredMenuItems = menuItems.filter(
-    (item) => item.path !== currentPath
+    (item) => item.path !== currentPath && item.name !== "Log Out"
   );
 
   return (
@@ -53,19 +58,29 @@ const NavAccount = () => {
 
           {/* Nav */}
           <div className="hidden lg:block px-5 mt-10">
-            {menuItems.map((item) => (
-              <Link key={item.path} to={item.path}>
+            {menuItems.map((item) =>
+              item.name === "Log Out" ? (
                 <p
-                  className={`font-semibold mt-3 ${
-                    currentPath === item.path
-                      ? "border-b border-black pb-2"
-                      : "text-[#6C7275]"
-                  }`}
+                  key={item.name}
+                  onClick={handleLogout}
+                  className="font-semibold mt-3 text-[#6C7275] cursor-pointer"
                 >
                   {item.name}
                 </p>
-              </Link>
-            ))}
+              ) : (
+                <Link key={item.path} to={item.path}>
+                  <p
+                    className={`font-semibold mt-3 ${
+                      currentPath === item.path
+                        ? "border-b border-black pb-2"
+                        : "text-[#6C7275]"
+                    }`}
+                  >
+                    {item.name}
+                  </p>
+                </Link>
+              )
+            )}
           </div>
 
           {/* Nav Mobile */}
@@ -88,6 +103,12 @@ const NavAccount = () => {
                     </p>
                   </Link>
                 ))}
+                <p
+                  onClick={handleLogout}
+                  className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer"
+                >
+                  Log Out
+                </p>
               </div>
             )}
           </div>

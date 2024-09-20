@@ -17,10 +17,11 @@ export interface Order {
   payment: string;
   products: CartProduct[];
   totalAmount: number;
+  createdAt: string;
 }
 
 export interface CartProduct {
-  product: Product;
+  product: Product; 
   quantity: number;
   _id: string;
 }

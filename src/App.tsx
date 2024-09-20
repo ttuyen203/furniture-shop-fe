@@ -13,7 +13,6 @@ import Orders from "./pages/client/account/Orders";
 import Wishlist from "./pages/client/account/Wishlist";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
-import OrderPage from "./pages/admin/OrderPage";
 import toast, { Toaster } from "react-hot-toast";
 import CategoryAdd from "./pages/admin/category/CategoryAdd";
 import CategoryList from "./pages/admin/category/CategoryList";
@@ -24,6 +23,8 @@ import ProductDetail from "./pages/admin/product/ProductDetail";
 import ProductAdd from "./pages/admin/product/ProductAdd";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import { ReactNode, useEffect } from "react";
+import OrderList from "./pages/admin/order/OrderList";
+import OrderDetail from "./pages/admin/order/OrderDetail";
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const token = localStorage.getItem("accessToken");
@@ -95,7 +96,8 @@ function App() {
             <Route path="products/add" element={<ProductAdd />} />
             <Route path="products/:slug/update" element={<ProductUpdate />} />
             {/* Order */}
-            <Route path="order-lists" element={<OrderPage />} />
+            <Route path="order-lists" element={<OrderList />} />
+            <Route path="order-lists/:id" element={<OrderDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>

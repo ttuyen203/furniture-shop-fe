@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgShoppingBag } from "react-icons/cg";
 import { FaRegCircleUser, FaTrashCan } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
@@ -91,6 +91,12 @@ const Header = () => {
       ),
       { duration: Infinity }
     );
+  };
+
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    navigate("/checkout", { state: { cartProducts: dataCart?.products } });
   };
 
   return (
@@ -189,16 +195,18 @@ const Header = () => {
             </div>
           </div>
 
-          <Link
-            to={"/checkout"}
+          <div
             onClick={() => {
               setIsCartOpen(false);
             }}
           >
-            <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center">
+            <p
+              className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center cursor-pointer"
+              onClick={() => handleCheckout()}
+            >
               Checkout
             </p>
-          </Link>
+          </div>
 
           <Link
             to={"/cart"}

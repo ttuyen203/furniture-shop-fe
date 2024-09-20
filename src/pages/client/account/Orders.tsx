@@ -1,6 +1,25 @@
+import { useEffect, useState } from "react";
 import NavAccount from "../../../components/NavAccount";
+import { Order } from "../../../types/Order";
+import axios from "axios";
+import BASE_URL from "../../../config";
 
 const Orders = () => {
+  const [orderData, setOrderData] = useState<Order[] | undefined>([]);
+
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + `/orders/user/${userId}`)
+      .then((res) => {
+        console.log(res.data);
+        setOrderData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [userId]);
   return (
     <>
       <div className="flex justify-center">
@@ -38,50 +57,30 @@ const Orders = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b">
-                      <td className="py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          #3456_768
-                        </p>
-                      </td>
-                      <td className="py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          October 17, 2023
-                        </p>
-                      </td>
-                      <td className="text-left py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          Delivered
-                        </p>
-                      </td>
-                      <td className="text-left py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          $1234.00
-                        </p>
-                      </td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          #3456_768
-                        </p>
-                      </td>
-                      <td className="py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          October 17, 2023
-                        </p>
-                      </td>
-                      <td className="text-left py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          Delivered
-                        </p>
-                      </td>
-                      <td className="text-left py-4">
-                        <p className="text-sm font-normal text-[#141718]">
-                          $1234.00
-                        </p>
-                      </td>
-                    </tr>
+                    {orderData?.map((d) => (
+                      <tr className="border-b" key={d._id}>
+                        <td className="py-4">
+                          <p className="text-sm font-normal text-[#141718]">
+                            {d._id}
+                          </p>
+                        </td>
+                        <td className="py-4">
+                          <p className="text-sm font-normal text-[#141718]">
+                            {d.createdAt.split("T")[0]}
+                          </p>
+                        </td>
+                        <td className="text-left py-4">
+                          <p className="text-sm font-normal text-[#141718]">
+                            Delivered
+                          </p>
+                        </td>
+                        <td className="text-left py-4">
+                          <p className="text-sm font-normal text-[#141718]">
+                            ${d.totalAmount}
+                          </p>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
