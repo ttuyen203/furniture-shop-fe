@@ -81,7 +81,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="flex items-center gap-5">
                   <h3 className="text-xl font-semibold">Price:</h3>
-                  <p className="text-lg">{product.price.toFixed(2)}</p>
+                  <p className="text-lg">${product.price}</p>
                 </div>
                 <div className="flex items-center gap-5">
                   <h3 className="text-xl font-semibold">Stock:</h3>
@@ -89,9 +89,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="flex items-center gap-5">
                   <h3 className="text-xl font-semibold">Category:</h3>
-                  <p className="text-lg">
-                    {product.category?.name}
-                  </p>
+                  <p className="text-lg">{product.category?.name}</p>
                 </div>
                 <div className="flex items-center gap-5">
                   <h3 className="text-xl font-semibold">Status:</h3>
@@ -124,7 +122,9 @@ const ProductDetail = () => {
               </div>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Description:</h3>
+                  <h3 className="text-xl font-semibold mb-2 text-justify">
+                    Description:
+                  </h3>
                   <p>{product.desc}</p>
                 </div>
                 <div>

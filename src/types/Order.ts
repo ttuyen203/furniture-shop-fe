@@ -17,11 +17,17 @@ export interface Order {
   payment: string;
   products: CartProduct[];
   totalAmount: number;
+  status: string;
   createdAt: string;
 }
 
+export interface ApiResOrder {
+  message: string;
+  data: Order[];
+}
+
 export interface CartProduct {
-  product: Product; 
+  product: Product;
   quantity: number;
   _id: string;
 }

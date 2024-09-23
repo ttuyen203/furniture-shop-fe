@@ -25,6 +25,7 @@ import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import { ReactNode, useEffect } from "react";
 import OrderList from "./pages/admin/order/OrderList";
 import OrderDetail from "./pages/admin/order/OrderDetail";
+import AccountOrderDetail from "./pages/client/account/AccountOrderDetail";
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const token = localStorage.getItem("accessToken");
@@ -70,6 +71,7 @@ function App() {
             <Route path="account" element={<Account />} />
             <Route path="account/address" element={<AccountAddress />} />
             <Route path="account/orders" element={<Orders />} />
+            <Route path="account/orders/:id" element={<AccountOrderDetail />} />
             <Route path="account/wishlist" element={<Wishlist />} />
           </Route>
           {/* Admin Routes */}

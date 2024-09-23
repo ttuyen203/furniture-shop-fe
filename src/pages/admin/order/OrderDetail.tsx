@@ -46,7 +46,7 @@ const OrderDetail = () => {
             Back to Order Lists
           </Link>
         </div>
-        <p className="text-[32px] font-semibold mb-4">Order Detail</p>
+        <p className="text-[32px] font-semibold mb-4">User Information</p>
         <div className="rounded-xl bg-white border border-[#d5d5d5]">
           <table className="min-w-full table-auto text-left">
             <tbody>
@@ -79,9 +79,9 @@ const OrderDetail = () => {
         </div>
       </div>
 
-      {/* Cart Information */}
+      {/* Order Detail */}
       <div className="px-5 py-4">
-        <p className="text-[32px] font-semibold mb-4">Cart Information</p>
+        <p className="text-[32px] font-semibold mb-4">Order Detail</p>
         <div className="overflow-x-auto rounded-xl border border-[#d5d5d5]">
           <table className="min-w-full bg-white table-auto">
             <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider bg-gray-100">

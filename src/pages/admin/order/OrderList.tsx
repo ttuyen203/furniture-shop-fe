@@ -1,27 +1,41 @@
 import { useEffect, useState } from "react";
 import TopBar from "../../../components/TopBar";
-import { Order } from "../../../types/Order";
+import { ApiResOrder, Order } from "../../../types/Order";
 import axios from "axios";
 import BASE_URL from "../../../config";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { statusCSS } from "../../../utils/statusCSS";
 
 const OrderList = () => {
   const [orderData, setOrderData] = useState<Order[] | undefined>([]);
 
-  const userId = localStorage.getItem("userId");
-
   useEffect(() => {
     axios
-      .get(BASE_URL + `/orders/user/${userId}`)
+      .get<ApiResOrder>(BASE_URL + `/orders/`)
       .then((res) => {
-        console.log(res.data);
-        setOrderData(res.data);
+        setOrderData(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [userId]);
+  }, []);
+
+  const updateStatus = async (orderId: string, newStatus: string) => {
+    try {
+      await axios.put(`${BASE_URL}/orders/${orderId}`, { status: newStatus });
+      const updatedOrders = orderData?.map((order) => {
+        if (order._id === orderId) {
+          return { ...order, status: newStatus };
+        }
+        return order;
+      });
+      setOrderData(updatedOrders);
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
   return (
     <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
@@ -50,7 +64,16 @@ const OrderList = () => {
                   <td className="py-4 px-6 text-sm font-medium text-[#202224] max-w-[100px] lg:max-w-[250px] break-words">
                     {d.createdAt.split("T")[0]}
                   </td>
-                  <td className="py-4 px-6 text-sm">Delivered</td>
+                  <td className={`py-4 px-6 flex justify-between items-center`}>
+                    <p
+                      className={`py-1 px-2 text-xs font-semibold rounded-lg ${statusCSS(
+                        d.status
+                      )}`}
+                    >
+                      {d.status}
+                    </p>
+                  </td>
+
                   <td className="py-4 px-6 text-sm font-medium text-[#202224] max-w-[100px] lg:max-w-[250px] break-words">
                     ${d.totalAmount}
                   </td>
@@ -60,6 +83,17 @@ const OrderList = () => {
                         <FaEye />
                       </div>
                     </Link>
+                    <select
+                      onChange={(e) => updateStatus(d._id, e.target.value)}
+                      defaultValue={d.status}
+                      className="bg-white border border-gray-300 rounded-lg px-2 py-1 text-xs"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Confirmed">Confirmed</option>
+                      <option value="Shipping">Shipping</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
                   </td>
                 </tr>
               ))}

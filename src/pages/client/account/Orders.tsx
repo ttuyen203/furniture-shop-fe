@@ -3,6 +3,8 @@ import NavAccount from "../../../components/NavAccount";
 import { Order } from "../../../types/Order";
 import axios from "axios";
 import BASE_URL from "../../../config";
+import { statusCSS } from "../../../utils/statusCSS";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const [orderData, setOrderData] = useState<Order[] | undefined>([]);
@@ -20,6 +22,12 @@ const Orders = () => {
         console.log(err);
       });
   }, [userId]);
+
+  const navigate = useNavigate();
+
+  const handelOrderDetail = (id: string) => {
+    navigate(`/account/orders/${id}`);
+  };
   return (
     <>
       <div className="flex justify-center">
@@ -57,30 +65,48 @@ const Orders = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {orderData?.map((d) => (
-                      <tr className="border-b" key={d._id}>
-                        <td className="py-4">
+                    {orderData && orderData.length > 0 ? (
+                      orderData.map((d) => (
+                        <tr
+                          className="border-b hover:bg-[#f5f5f5] cursor-pointer"
+                          key={d._id}
+                          onClick={() => handelOrderDetail(d._id)}
+                        >
+                          <td className="py-4">
+                            <p className="text-sm font-normal text-[#141718]">
+                              {d._id}
+                            </p>
+                          </td>
+                          <td className="py-4">
+                            <p className="text-sm font-normal text-[#141718]">
+                              {d.createdAt.split("T")[0]}
+                            </p>
+                          </td>
+                          <td className="py-4">
+                            <p
+                              className={`text-sm text-center font-normal w-1/2 px-3 py-1 rounded-lg ${statusCSS(
+                                d.status
+                              )}`}
+                            >
+                              {d.status}
+                            </p>
+                          </td>
+                          <td className="text-left py-4">
+                            <p className="text-sm font-normal text-[#141718]">
+                              ${d.totalAmount}
+                            </p>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} className="text-center py-4">
                           <p className="text-sm font-normal text-[#141718]">
-                            {d._id}
-                          </p>
-                        </td>
-                        <td className="py-4">
-                          <p className="text-sm font-normal text-[#141718]">
-                            {d.createdAt.split("T")[0]}
-                          </p>
-                        </td>
-                        <td className="text-left py-4">
-                          <p className="text-sm font-normal text-[#141718]">
-                            Delivered
-                          </p>
-                        </td>
-                        <td className="text-left py-4">
-                          <p className="text-sm font-normal text-[#141718]">
-                            ${d.totalAmount}
+                            You currently have no orders.
                           </p>
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
