@@ -3,6 +3,8 @@ export interface User {
   username: string;
   email: string;
   password: string;
+  phone: string;
+  address: string;
 }
 
 export interface ApiResUser {

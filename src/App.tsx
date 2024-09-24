@@ -9,7 +9,6 @@ import Checkout from "./pages/client/Checkout";
 import OrderComplete from "./pages/client/OrderComplete";
 import Account from "./pages/client/account/Account";
 import AccountAddress from "./pages/client/account/AccountAddress";
-import Orders from "./pages/client/account/Orders";
 import Wishlist from "./pages/client/account/Wishlist";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
@@ -26,6 +25,7 @@ import { ReactNode, useEffect } from "react";
 import OrderList from "./pages/admin/order/OrderList";
 import OrderDetail from "./pages/admin/order/OrderDetail";
 import AccountOrderDetail from "./pages/client/account/AccountOrderDetail";
+import AccountOrders from "./pages/client/account/AccountOrders";
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const token = localStorage.getItem("accessToken");
@@ -70,7 +70,7 @@ function App() {
             <Route path="order-complete" element={<OrderComplete />} />
             <Route path="account" element={<Account />} />
             <Route path="account/address" element={<AccountAddress />} />
-            <Route path="account/orders" element={<Orders />} />
+            <Route path="account/orders" element={<AccountOrders />} />
             <Route path="account/orders/:id" element={<AccountOrderDetail />} />
             <Route path="account/wishlist" element={<Wishlist />} />
           </Route>

@@ -6,7 +6,7 @@ import BASE_URL from "../../../config";
 import { statusCSS } from "../../../utils/statusCSS";
 import { useNavigate } from "react-router-dom";
 
-const Orders = () => {
+const AccountOrders = () => {
   const [orderData, setOrderData] = useState<Order[] | undefined>([]);
 
   const userId = localStorage.getItem("userId");
@@ -155,4 +155,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AccountOrders;

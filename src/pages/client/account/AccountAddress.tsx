@@ -1,8 +1,26 @@
 import { FiEdit3 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import NavAccount from "../../../components/NavAccount";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import BASE_URL from "../../../config";
+import { User } from "../../../types/User";
 
 const AccountAddress = () => {
+  const userId = localStorage.getItem("userId");
+
+  const [userData, setUserData] = useState<User>();
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + `/users/${userId}`)
+      .then((res) => {
+        setUserData(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [userId]);
   return (
     <>
       <div className="flex justify-center">
@@ -26,7 +44,7 @@ const AccountAddress = () => {
                   <div className="border border-[#6c7275] rounded-md p-3">
                     <div className="flex justify-between">
                       <p className="font-semibold">Billing Address</p>
-                      <Link to={"/"}>
+                      <Link to={"/account"}>
                         <div className="flex gap-1 text-[#6C7275] items-center">
                           <FiEdit3 />
                           <p>Edit</p>
@@ -34,58 +52,35 @@ const AccountAddress = () => {
                       </Link>
                     </div>
                     <div className="text-sm font-normal mt-3">
-                      <p>Sofia Havertz</p>
+                      <p>{userData?.username}</p>
                     </div>
-                    <div className="text-sm font-normal mt-2">
-                      <p>(+1) 234 567 890</p>
+                    <div
+                      className={`text-sm font-normal mt-2 tracking-wide ${
+                        userData?.phone ? "" : "text-gray-500"
+                      }`}
+                    >
+                      <p>
+                        {userData?.phone ? userData?.phone : "*Phone not added"}
+                      </p>
                     </div>
-                    <div className="text-sm font-normal mt-2">
-                      <p>345 Long Island, NewYork, United States</p>
+                    <div
+                      className={`text-sm font-normal mt-2 ${
+                        userData?.address ? "" : "text-gray-500"
+                      }`}
+                    >
+                      <p>
+                        {userData?.address
+                          ? userData?.address
+                          : "*Address not added"}
+                      </p>
                     </div>
-                  </div>
-                </div>
-                <div className="w-full lg:w-[45%]">
-                  <div className="border border-[#6c7275] rounded-md p-3">
-                    <div className="flex justify-between">
-                      <p className="font-semibold">Billing Address</p>
-                      <Link to={"/"}>
-                        <div className="flex gap-1 text-[#6C7275] items-center">
-                          <FiEdit3 />
-                          <p>Edit</p>
+                    {(!userData?.phone || !userData?.address) && (
+                      <Link to={"/account"}>
+                        <div className="text-sm mt-2 font-semibold hover:underline">
+                          <p>Add your phone and address now!</p>
                         </div>
                       </Link>
-                    </div>
-                    <div className="text-sm font-normal mt-3">
-                      <p>Sofia Havertz</p>
-                    </div>
-                    <div className="text-sm font-normal mt-2">
-                      <p>(+1) 234 567 890</p>
-                    </div>
-                    <div className="text-sm font-normal mt-2">
-                      <p>345 Long Island, NewYork, United States</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full lg:w-[45%]">
-                  <div className="border border-[#6c7275] rounded-md p-3">
-                    <div className="flex justify-between">
-                      <p className="font-semibold">Billing Address</p>
-                      <Link to={"/"}>
-                        <div className="flex gap-1 text-[#6C7275] items-center">
-                          <FiEdit3 />
-                          <p>Edit</p>
-                        </div>
-                      </Link>
-                    </div>
-                    <div className="text-sm font-normal mt-3">
-                      <p>Sofia Havertz</p>
-                    </div>
-                    <div className="text-sm font-normal mt-2">
-                      <p>(+1) 234 567 890</p>
-                    </div>
-                    <div className="text-sm font-normal mt-2">
-                      <p>345 Long Island, NewYork, United States</p>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
