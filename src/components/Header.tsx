@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CgShoppingBag } from "react-icons/cg";
@@ -257,40 +258,56 @@ const Header = () => {
 
           <ul className="mt-4">
             <li>
-              <Link
+              <NavLink
                 to="/"
-                className="block py-2 border-b border-[#e8ecef] text-sm font-medium"
+                className={({ isActive }) =>
+                  `block py-2 border-b border-[#e8ecef] text-sm ${
+                    isActive ? "font-medium" : "text-[#6c7275]"
+                  }`
+                }
                 onClick={toggleMenu}
               >
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 to="/shop"
-                className="block py-2 border-b border-[#e8ecef] text-sm font-medium"
+                className={({ isActive }) =>
+                  `block py-2 border-b border-[#e8ecef] text-sm ${
+                    isActive ? "font-medium" : "text-[#6c7275]"
+                  }`
+                }
                 onClick={toggleMenu}
               >
                 Shop
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                to="/product"
-                className="block py-2 border-b border-[#e8ecef] text-sm font-medium"
+              <NavLink
+                to="/blog"
+                className={({ isActive }) =>
+                  `block py-2 border-b border-[#e8ecef] text-sm ${
+                    isActive ? "font-medium" : "text-[#6c7275]"
+                  }`
+                }
                 onClick={toggleMenu}
               >
-                Product
-              </Link>
+                Blog
+              </NavLink>
             </li>
             <li>
-              <Link
-                to="/contact"
-                className="block py-2 border-b border-[#e8ecef] text-sm font-medium"
+              <NavLink
+                to="/contact-us"
+                className={({ isActive }) =>
+                  `block py-2 border-b border-[#e8ecef] text-sm ${
+                    isActive ? "font-medium" : "text-[#6c7275]"
+                  }`
+                }
                 onClick={toggleMenu}
               >
                 Contact Us
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -307,7 +324,7 @@ const Header = () => {
                 <div className="flex gap-1">
                   <CgShoppingBag size={20} />
                   <div className="bg-black text-white w-5 h-5 text-center flex items-center justify-center rounded-full text-xs">
-                    <p>3</p>
+                    <p>{productInCart}</p>
                   </div>
                 </div>
               </Link>
@@ -358,18 +375,46 @@ const Header = () => {
 
           {/* Navbar */}
           <div className="hidden md:flex gap-8">
-            <Link to={"/"} className="font-medium hover:text-black">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-black"
+                  : "text-[#6c7275] hover:text-black"
+              }
+            >
               Home
-            </Link>
-            <Link to={"/shop"} className="text-[#6c7275] hover:text-black">
+            </NavLink>
+            <NavLink
+              to="/shop"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-black"
+                  : "text-[#6c7275] hover:text-black"
+              }
+            >
               Shop
-            </Link>
-            <Link to={"/"} className="text-[#6c7275] hover:text-black">
-              Product
-            </Link>
-            <Link to={"/"} className="text-[#6c7275] hover:text-black">
+            </NavLink>
+            <NavLink
+              to="/blog"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-black"
+                  : "text-[#6c7275] hover:text-black"
+              }
+            >
+              Blog
+            </NavLink>
+            <NavLink
+              to="/contact-us"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-black"
+                  : "text-[#6c7275] hover:text-black"
+              }
+            >
               Contact Us
-            </Link>
+            </NavLink>
           </div>
 
           {/* User */}

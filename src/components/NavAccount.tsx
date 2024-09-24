@@ -12,25 +12,23 @@ const NavAccount = () => {
 
   const navigate = useNavigate();
 
-  const menuItems = [
-    { name: "Account", path: "/account" },
-    { name: "Address", path: "/account/address" },
-    { name: "Orders", path: "/account/orders" },
-    { name: "Wishlist", path: "/account/wishlist" },
-    { name: "Log Out", path: "/" },
-  ];
-
   const handleLogout = () => {
     localStorage.clear();
     toast.success("Logout successfully!");
     navigate("/login");
   };
 
-  const currentMenuItem = menuItems.find((item) => item.path === currentPath);
+  const menuItems = [
+    { name: "Account", path: "/account" },
+    { name: "Address", path: "/account/address" },
+    { name: "Orders", path: "/account/orders" },
+    { name: "Wishlist", path: "/account/wishlist" },
+    { name: "Log Out", onClick: handleLogout },
+  ];
 
-  const filteredMenuItems = menuItems.filter(
-    (item) => item.path !== currentPath && item.name !== "Log Out"
-  );
+  const currentMenuItem = menuItems.find(
+    (item) => item.path === currentPath
+  ) || { name: "Account" };
 
   return (
     <>
@@ -59,19 +57,21 @@ const NavAccount = () => {
           {/* Nav */}
           <div className="hidden lg:block px-5 mt-10">
             {menuItems.map((item) =>
-              item.name === "Log Out" ? (
+              item.onClick ? (
                 <p
                   key={item.name}
-                  onClick={handleLogout}
+                  onClick={item.onClick}
                   className="font-semibold mt-3 text-[#6C7275] cursor-pointer"
                 >
                   {item.name}
                 </p>
               ) : (
-                <Link key={item.path} to={item.path}>
+                <Link key={item.path} to={item.path!}>
                   <p
                     className={`font-semibold mt-3 ${
-                      currentPath === item.path
+                      currentPath === item.path ||
+                      (item.path === "/account/orders" &&
+                        currentPath.startsWith(item.path))
                         ? "border-b border-black pb-2"
                         : "text-[#6C7275]"
                     }`}
@@ -90,19 +90,24 @@ const NavAccount = () => {
                 onClick={() => setIsOpenSelectMenu(!isOpenSelectMenu)}
                 className="w-full text-base font-semibold px-2 flex items-center justify-between"
               >
-                {currentMenuItem ? currentMenuItem.name : "Account"}
+                {currentMenuItem.name}
                 <MdKeyboardArrowDown size={20} />
               </button>
             </div>
             {isOpenSelectMenu && (
               <div className="w-full border-2 mt-1 p-2 rounded-lg bg-white">
-                {filteredMenuItems.map((item) => (
-                  <Link key={item.path} to={item.path}>
-                    <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
-                      {item.name}
-                    </p>
-                  </Link>
-                ))}
+                {menuItems
+                  .filter(
+                    (item) =>
+                      item.name !== "Log Out" && item.path !== currentPath
+                  )
+                  .map((item) => (
+                    <Link key={item.path} to={item.path!}>
+                      <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
+                        {item.name}
+                      </p>
+                    </Link>
+                  ))}
                 <p
                   onClick={handleLogout}
                   className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer"

@@ -5,10 +5,37 @@ import axios from "axios";
 import BASE_URL from "../../config";
 import toast from "react-hot-toast";
 import { CartProduct } from "../../types/Cart";
+import { useEffect } from "react";
 
 const Checkout = () => {
+  const userId = localStorage.getItem("userId");
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormOrder>();
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + `/users/${userId}`)
+      .then((res) => {
+        // console.log(res.data);
+        setValue("username", res.data.data.username);
+        setValue("email", res.data.data.email);
+        setValue("phone", res.data.data.phone);
+        setValue("address", res.data.data.address);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [userId, setValue]);
+
   const location = useLocation();
+
   const cartProducts: CartProduct[] = location.state?.cartProducts || [];
+
   const navigate = useNavigate();
 
   const totalAmount = () => {
@@ -17,20 +44,14 @@ const Checkout = () => {
     }, 0);
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormOrder>();
-
   const onSubmit = (data: FormOrder) => {
-    const userId = localStorage.getItem("userId");
+    console.log(data);
     axios
       .post(`${BASE_URL}/orders`, {
         user: userId,
         address: data.address,
         phone: data.phone,
-        name: data.name,
+        username: data.username,
         payment: data.payment,
         products: cartProducts,
         totalAmount: totalAmount(),
@@ -86,7 +107,7 @@ const Checkout = () => {
                 {/* Name */}
                 <div className="w-full mt-5">
                   <label
-                    htmlFor="name"
+                    htmlFor="username"
                     className="block text-xs font-bold text-[#6C7275] mb-2 uppercase"
                   >
                     Full name *
@@ -96,17 +117,17 @@ const Checkout = () => {
                     type="text"
                     placeholder="Full name"
                     className={`border placeholder:text-[#6C7275] py-1 px-3 rounded-md w-full focus:outline-none ${
-                      errors.name
+                      errors.username
                         ? "border-red-500 focus:border-red-500"
                         : "border-[#CBCBCB] focus:border-[#a1a1aa]"
                     }`}
-                    {...register("name", {
+                    {...register("username", {
                       required: "Name is required",
                     })}
                   />
-                  {errors.name && (
+                  {errors.username && (
                     <p className="mt-2 text-sm text-red-600">
-                      {errors.name.message}
+                      {errors.username.message}
                     </p>
                   )}
                 </div>

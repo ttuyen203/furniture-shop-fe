@@ -64,7 +64,7 @@ const AccountOrderDetail = () => {
                       </td>
                       <td className="py-4 text-left">
                         <p className="text-sm font-normal text-[#141718]">
-                          {data?.name}
+                          {data?.username}
                         </p>
                       </td>
                     </tr>

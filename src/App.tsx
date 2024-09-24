@@ -26,6 +26,8 @@ import OrderList from "./pages/admin/order/OrderList";
 import OrderDetail from "./pages/admin/order/OrderDetail";
 import AccountOrderDetail from "./pages/client/account/AccountOrderDetail";
 import AccountOrders from "./pages/client/account/AccountOrders";
+import Blog from "./pages/client/Blog";
+import Contact from "./pages/client/Contact";
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const token = localStorage.getItem("accessToken");
@@ -64,6 +66,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="home" element={<Home />} />
             <Route path="shop" element={<Shop />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="contact-us" element={<Contact />} />
             <Route path="product-detail/:id" element={<Detail />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />

@@ -1,7 +1,7 @@
 import { Product } from "./Product";
 
 export interface FormOrder {
-  name: string;
+  username: string;
   phone: string;
   email: string;
   address: string;
@@ -13,7 +13,7 @@ export interface Order {
   user: string;
   address: string;
   phone: string;
-  name: string;
+  username: string;
   payment: string;
   products: CartProduct[];
   totalAmount: number;
