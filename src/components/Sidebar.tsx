@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { TbDeviceAnalytics } from "react-icons/tb";
 import { MdOutlineBorderAll } from "react-icons/md";
 import { TbCategory2 } from "react-icons/tb";
@@ -6,30 +6,8 @@ import { LuListChecks } from "react-icons/lu";
 
 const Sidebar = () => {
   const location = useLocation();
-  const currentPath = location.pathname;
 
-  const menuItems = [
-    {
-      name: "Dashboard",
-      path: "/admin",
-      icon: <TbDeviceAnalytics size={20} />,
-    },
-    {
-      name: "Categories",
-      path: "/admin/categories",
-      icon: <TbCategory2 size={20} />,
-    },
-    {
-      name: "Products",
-      path: "/admin/products",
-      icon: <MdOutlineBorderAll size={20} />,
-    },
-    {
-      name: "Order Lists",
-      path: "/admin/order-lists",
-      icon: <LuListChecks size={20} />,
-    },
-  ];
+  const currentPath = location.pathname;
 
   return (
     <div className="hidden md:block fixed top-0 left-0 z-40 w-64 h-screen">
@@ -39,26 +17,67 @@ const Sidebar = () => {
       </Link>
 
       {/* Menu Items */}
-      {menuItems.map((item) => (
-        <Link key={item.path} to={item.path}>
+      <NavLink to={"/admin"}>
+        {({ isActive }) => (
           <div className="px-8">
             <div
               className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
-                item.path === "/admin"
-                  ? currentPath === item.path
-                    ? "text-white bg-[#4880FF]"
-                    : ""
-                  : currentPath.startsWith(item.path)
+                isActive && currentPath === "/admin"
                   ? "text-white bg-[#4880FF]"
                   : ""
               }`}
             >
-              {item.icon}
-              <p className="text-sm">{item.name}</p>
+              <TbDeviceAnalytics size={20} />
+              <p className="text-sm">Dashboard</p>
             </div>
           </div>
-        </Link>
-      ))}
+        )}
+      </NavLink>
+
+      <NavLink to={"/admin/categories"}>
+        {({ isActive }) => (
+          <div className="px-8">
+            <div
+              className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                isActive ? "text-white bg-[#4880FF]" : ""
+              }`}
+            >
+              <TbCategory2 size={20} />
+              <p className="text-sm">Categories</p>
+            </div>
+          </div>
+        )}
+      </NavLink>
+
+      <NavLink to={"/admin/products"}>
+        {({ isActive }) => (
+          <div className="px-8">
+            <div
+              className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                isActive ? "text-white bg-[#4880FF]" : ""
+              }`}
+            >
+              <MdOutlineBorderAll size={20} />
+              <p className="text-sm">Products</p>
+            </div>
+          </div>
+        )}
+      </NavLink>
+
+      <NavLink to={"/admin/order-lists"}>
+        {({ isActive }) => (
+          <div className="px-8">
+            <div
+              className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                isActive ? "text-white bg-[#4880FF]" : ""
+              }`}
+            >
+              <LuListChecks size={20} />
+              <p className="text-sm">Order Lists</p>
+            </div>
+          </div>
+        )}
+      </NavLink>
     </div>
   );
 };

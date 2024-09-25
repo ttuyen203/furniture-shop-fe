@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { HiCamera } from "react-icons/hi2";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const NavAccount = () => {
   const [isOpenSelectMenu, setIsOpenSelectMenu] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState("Account");
 
   const location = useLocation();
+  
   const currentPath = location.pathname;
 
   const navigate = useNavigate();
@@ -18,17 +20,15 @@ const NavAccount = () => {
     navigate("/login");
   };
 
-  const menuItems = [
-    { name: "Account", path: "/account" },
-    { name: "Address", path: "/account/address" },
-    { name: "Orders", path: "/account/orders" },
-    { name: "Wishlist", path: "/account/wishlist" },
-    { name: "Log Out", onClick: handleLogout },
-  ];
-
-  const currentMenuItem = menuItems.find(
-    (item) => item.path === currentPath
-  ) || { name: "Account" };
+  useEffect(() => {
+    if (currentPath === "/account") {
+      setSelectedMenuItem("Account");
+    } else if (currentPath === "/account/address") {
+      setSelectedMenuItem("Address");
+    } else if (currentPath.startsWith("/account/orders")) {
+      setSelectedMenuItem("Orders");
+    }
+  }, [currentPath]);
 
   return (
     <>
@@ -56,31 +56,51 @@ const NavAccount = () => {
 
           {/* Nav */}
           <div className="hidden lg:block px-5 mt-10">
-            {menuItems.map((item) =>
-              item.onClick ? (
+            <NavLink to="/account">
+              {({ isActive }) => (
                 <p
-                  key={item.name}
-                  onClick={item.onClick}
-                  className="font-semibold mt-3 text-[#6C7275] cursor-pointer"
+                  className={`font-semibold mt-3 cursor-pointer ${
+                    isActive && currentPath === "/account"
+                      ? "text-black border-b border-black pb-2"
+                      : "text-[#6C7275]"
+                  }`}
                 >
-                  {item.name}
+                  Account
                 </p>
-              ) : (
-                <Link key={item.path} to={item.path!}>
-                  <p
-                    className={`font-semibold mt-3 ${
-                      currentPath === item.path ||
-                      (item.path === "/account/orders" &&
-                        currentPath.startsWith(item.path))
-                        ? "border-b border-black pb-2"
-                        : "text-[#6C7275]"
-                    }`}
-                  >
-                    {item.name}
-                  </p>
-                </Link>
-              )
-            )}
+              )}
+            </NavLink>
+            <NavLink to="/account/address">
+              {({ isActive }) => (
+                <p
+                  className={`font-semibold mt-3 cursor-pointer ${
+                    isActive
+                      ? "text-black border-b border-black pb-2"
+                      : "text-[#6C7275]"
+                  }`}
+                >
+                  Address
+                </p>
+              )}
+            </NavLink>
+            <NavLink to="/account/orders">
+              {({ isActive }) => (
+                <p
+                  className={`font-semibold mt-3 cursor-pointer ${
+                    isActive
+                      ? "text-black border-b border-black pb-2"
+                      : "text-[#6C7275]"
+                  }`}
+                >
+                  Orders
+                </p>
+              )}
+            </NavLink>
+            <p
+              className="font-semibold mt-3 cursor-pointer text-[#6C7275]"
+              onClick={handleLogout}
+            >
+              Log Out
+            </p>
           </div>
 
           {/* Nav Mobile */}
@@ -90,24 +110,45 @@ const NavAccount = () => {
                 onClick={() => setIsOpenSelectMenu(!isOpenSelectMenu)}
                 className="w-full text-base font-semibold px-2 flex items-center justify-between"
               >
-                {currentMenuItem.name}
+                {selectedMenuItem}
                 <MdKeyboardArrowDown size={20} />
               </button>
             </div>
             {isOpenSelectMenu && (
               <div className="w-full border-2 mt-1 p-2 rounded-lg bg-white">
-                {menuItems
-                  .filter(
-                    (item) =>
-                      item.name !== "Log Out" && item.path !== currentPath
-                  )
-                  .map((item) => (
-                    <Link key={item.path} to={item.path!}>
-                      <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
-                        {item.name}
-                      </p>
-                    </Link>
-                  ))}
+                <Link
+                  to="/account"
+                  onClick={() => {
+                    setSelectedMenuItem("Account");
+                    setIsOpenSelectMenu(false);
+                  }}
+                >
+                  <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
+                    Account
+                  </p>
+                </Link>
+                <Link
+                  to="/account/address"
+                  onClick={() => {
+                    setSelectedMenuItem("Address");
+                    setIsOpenSelectMenu(false);
+                  }}
+                >
+                  <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
+                    Address
+                  </p>
+                </Link>
+                <Link
+                  to="/account/orders"
+                  onClick={() => {
+                    setSelectedMenuItem("Orders");
+                    setIsOpenSelectMenu(false);
+                  }}
+                >
+                  <p className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer">
+                    Orders
+                  </p>
+                </Link>
                 <p
                   onClick={handleLogout}
                   className="text-base font-normal hover:bg-[#F3F5F7] hover:font-semibold px-1.5 rounded-md py-2 cursor-pointer"
