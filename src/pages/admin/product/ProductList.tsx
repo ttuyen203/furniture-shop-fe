@@ -7,11 +7,16 @@ import TopBar from "../../../components/TopBar";
 import { FaPenToSquare, FaRegTrashCan } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import { ApiResProduct, Product } from "../../../types/Product";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const ProductList = () => {
   const [data, setData] = useState<Product[]>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get<ApiResProduct>(BASE_URL + "/products")
       .then((res) => {
@@ -20,8 +25,15 @@ const ProductList = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleDelete = (productSlug: string) => {
     toast(
@@ -68,7 +80,7 @@ const ProductList = () => {
   };
 
   return (
-    <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+    <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       <div className="px-5 py-2">
         <div className="flex items-center justify-between">

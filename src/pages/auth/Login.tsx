@@ -4,6 +4,8 @@ import axios from "axios";
 import BASE_URL from "../../config";
 import toast from "react-hot-toast";
 import { User } from "../../types/User";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const Login = () => {
   const {
@@ -14,7 +16,10 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const { isLoading, setIsLoading } = useLoading();
+
   const onSubmit = (data: User) => {
+    setIsLoading(true);
     axios
       .post(BASE_URL + `/auth/login`, data)
       .then((res) => {
@@ -26,8 +31,15 @@ const Login = () => {
       })
       .catch((error) => {
         toast.error(error.response?.data?.message || "Login failed");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -69,7 +81,7 @@ const Login = () => {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^\S+@\S+$/i,
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                       message: "Invalid email address",
                     },
                   })}

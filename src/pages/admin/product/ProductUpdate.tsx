@@ -8,6 +8,8 @@ import { Category } from "../../../types/Category";
 import { FaRegImage, FaTimes } from "react-icons/fa";
 import TopBar from "../../../components/TopBar";
 import { Product } from "../../../types/Product";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const ProductUpdate = () => {
   const { slug } = useParams();
@@ -19,6 +21,8 @@ const ProductUpdate = () => {
     formState: { errors },
   } = useForm<Product>();
 
+  const { isLoading, setIsLoading } = useLoading();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -27,10 +31,14 @@ const ProductUpdate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${BASE_URL}/categories`)
       .then((res) => setCategories(res.data.data))
-      .catch((err) => toast.error(err));
+      .catch((err) => toast.error(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
 
     axios
       .get(`${BASE_URL}/products/${slug}`)
@@ -46,8 +54,11 @@ const ProductUpdate = () => {
 
         setImageUrl(product.images);
       })
-      .catch((err) => toast.error(err));
-  }, [slug, setValue]);
+      .catch((err) => toast.error(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [slug, setValue, setIsLoading]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -64,6 +75,7 @@ const ProductUpdate = () => {
   };
 
   const onSubmit = async (data: Product) => {
+    setIsLoading(true);
     try {
       if (imageFile) {
         const formData = new FormData();
@@ -74,7 +86,7 @@ const ProductUpdate = () => {
           `https://api.cloudinary.com/v1_1/dymajn3ys/image/upload`,
           formData
         );
-        
+
         data.images = res.data.secure_url;
       } else {
         data.images = imageUrl;
@@ -89,11 +101,17 @@ const ProductUpdate = () => {
       } else {
         toast.error("Create product failed");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+    <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       <div className="px-5 py-2">
         <h2 className="text-[32px] font-semibold mb-4">Update Product</h2>
@@ -251,7 +269,7 @@ const ProductUpdate = () => {
               Description
             </label>
             <textarea
-              className="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none"
+              className="mt-1 block h-32 w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none"
               {...register("desc")}
             />
           </div>

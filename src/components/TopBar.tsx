@@ -11,11 +11,10 @@ const TopBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   const location = useLocation();
-
   const currentPath = location.pathname;
 
   return (
@@ -50,91 +49,90 @@ const TopBar = () => {
         </Link>
       </div>
 
-      {isSidebarOpen && (
-        <div className="lg:hidden fixed inset-0 z-50">
-          <div
-            className="absolute inset-0 bg-black opacity-50"
-            onClick={toggleSidebar}
-          ></div>
-          <div
-            className="relative w-64 h-full bg-white transform transition-transform duration-300 ease-in-out z-50"
-            style={{
-              transform: isSidebarOpen ? "translateX(0)" : "translateX(-100%)",
-            }}
-          >
-            <div className="fixed top-0 left-0 z-40 w-64 h-screen">
-              {/* logo */}
-              <Link to={"/"}>
-                <p className="text-center font-semibold text-xl mt-3 mb-3">
-                  3legant.
-                </p>
-              </Link>
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 w-64 h-full bg-white transform py-2 flex flex-col justify-between ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50`}
+      >
+        <div>
+          <Link to={"/"}>
+            <p className="text-center font-semibold text-xl mt-3 mb-3">
+              3legant.
+            </p>
+          </Link>
 
-              {/* Menu Items */}
-              <NavLink to={"/admin"}>
-                {({ isActive }) => (
-                  <div className="px-8">
-                    <div
-                      className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
-                        isActive && currentPath === "/admin"
-                          ? "text-white bg-[#4880FF]"
-                          : ""
-                      }`}
-                    >
-                      <TbDeviceAnalytics size={20} />
-                      <p className="text-sm">Dashboard</p>
-                    </div>
-                  </div>
-                )}
-              </NavLink>
+          {/* Menu Items */}
+          <NavLink to={"/admin"}>
+            {({ isActive }) => (
+              <div className="px-8">
+                <div
+                  className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                    isActive && currentPath === "/admin"
+                      ? "text-white bg-[#4880FF]"
+                      : ""
+                  }`}
+                >
+                  <TbDeviceAnalytics size={20} />
+                  <p className="text-sm">Dashboard</p>
+                </div>
+              </div>
+            )}
+          </NavLink>
 
-              <NavLink to={"/admin/categories"}>
-                {({ isActive }) => (
-                  <div className="px-8">
-                    <div
-                      className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
-                        isActive ? "text-white bg-[#4880FF]" : ""
-                      }`}
-                    >
-                      <TbCategory2 size={20} />
-                      <p className="text-sm">Categories</p>
-                    </div>
-                  </div>
-                )}
-              </NavLink>
+          <NavLink to={"/admin/categories"}>
+            {({ isActive }) => (
+              <div className="px-8">
+                <div
+                  className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                    isActive ? "text-white bg-[#4880FF]" : ""
+                  }`}
+                >
+                  <TbCategory2 size={20} />
+                  <p className="text-sm">Categories</p>
+                </div>
+              </div>
+            )}
+          </NavLink>
 
-              <NavLink to={"/admin/products"}>
-                {({ isActive }) => (
-                  <div className="px-8">
-                    <div
-                      className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
-                        isActive ? "text-white bg-[#4880FF]" : ""
-                      }`}
-                    >
-                      <MdOutlineBorderAll size={20} />
-                      <p className="text-sm">Products</p>
-                    </div>
-                  </div>
-                )}
-              </NavLink>
+          <NavLink to={"/admin/products"}>
+            {({ isActive }) => (
+              <div className="px-8">
+                <div
+                  className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                    isActive ? "text-white bg-[#4880FF]" : ""
+                  }`}
+                >
+                  <MdOutlineBorderAll size={20} />
+                  <p className="text-sm">Products</p>
+                </div>
+              </div>
+            )}
+          </NavLink>
 
-              <NavLink to={"/admin/order-lists"}>
-                {({ isActive }) => (
-                  <div className="px-8">
-                    <div
-                      className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
-                        isActive ? "text-white bg-[#4880FF]" : ""
-                      }`}
-                    >
-                      <LuListChecks size={20} />
-                      <p className="text-sm">Order Lists</p>
-                    </div>
-                  </div>
-                )}
-              </NavLink>
-            </div>
-          </div>
+          <NavLink to={"/admin/order-lists"}>
+            {({ isActive }) => (
+              <div className="px-8">
+                <div
+                  className={`flex items-center gap-2 py-4 rounded-lg pl-5 ${
+                    isActive ? "text-white bg-[#4880FF]" : ""
+                  }`}
+                >
+                  <LuListChecks size={20} />
+                  <p className="text-sm">Order Lists</p>
+                </div>
+              </div>
+            )}
+          </NavLink>
         </div>
+      </div>
+
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-40"
+          onClick={toggleSidebar}
+        ></div>
       )}
     </>
   );

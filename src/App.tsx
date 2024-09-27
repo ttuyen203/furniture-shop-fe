@@ -28,6 +28,7 @@ import AccountOrderDetail from "./pages/client/account/AccountOrderDetail";
 import AccountOrders from "./pages/client/account/AccountOrders";
 import Blog from "./pages/client/Blog";
 import Contact from "./pages/client/Contact";
+import { LoadingProvider } from "./context/LoadingContext";
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const token = localStorage.getItem("accessToken");
@@ -50,62 +51,67 @@ function App() {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <BrowserRouter>
-        <Routes>
-          {/* Auth Routes */}
-          <Route path="register" element={<Register />} />
-          <Route path="login" element={<Login />} />
-          {/* Client Routes */}
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <ClientLayout />
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<Home />} />
-            <Route path="home" element={<Home />} />
-            <Route path="shop" element={<Shop />} />
-            <Route path="blog" element={<Blog />} />
-            <Route path="contact-us" element={<Contact />} />
-            <Route path="product-detail/:id" element={<Detail />} />
-            <Route path="cart" element={<Cart />} />
-            <Route path="checkout" element={<Checkout />} />
-            <Route path="order-complete" element={<OrderComplete />} />
-            <Route path="account" element={<Account />} />
-            <Route path="account/address" element={<AccountAddress />} />
-            <Route path="account/orders" element={<AccountOrders />} />
-            <Route path="account/orders/:id" element={<AccountOrderDetail />} />
-            <Route path="account/wishlist" element={<Wishlist />} />
-          </Route>
-          {/* Admin Routes */}
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute>
-                <AdminLayout />
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            {/* Category */}
-            <Route path="categories" element={<CategoryList />} />
-            <Route path="categories/add" element={<CategoryAdd />} />
+        <LoadingProvider>
+          <Routes>
+            {/* Auth Routes */}
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
+            {/* Client Routes */}
             <Route
-              path="categories/:slug/update"
-              element={<CategoryUpdate />}
-            />
-            {/* Product */}
-            <Route path="products" element={<ProductList />} />
-            <Route path="products/:slug" element={<ProductDetail />} />
-            <Route path="products/add" element={<ProductAdd />} />
-            <Route path="products/:slug/update" element={<ProductUpdate />} />
-            {/* Order */}
-            <Route path="order-lists" element={<OrderList />} />
-            <Route path="order-lists/:id" element={<OrderDetail />} />
-          </Route>
-        </Routes>
+              path="/"
+              element={
+                <PrivateRoute>
+                  <ClientLayout />
+                </PrivateRoute>
+              }
+            >
+              <Route index element={<Home />} />
+              <Route path="home" element={<Home />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="contact-us" element={<Contact />} />
+              <Route path="product-detail/:id" element={<Detail />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="order-complete" element={<OrderComplete />} />
+              <Route path="account" element={<Account />} />
+              <Route path="account/address" element={<AccountAddress />} />
+              <Route path="account/orders" element={<AccountOrders />} />
+              <Route
+                path="account/orders/:id"
+                element={<AccountOrderDetail />}
+              />
+              <Route path="account/wishlist" element={<Wishlist />} />
+            </Route>
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute>
+                  <AdminLayout />
+                </PrivateRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              {/* Category */}
+              <Route path="categories" element={<CategoryList />} />
+              <Route path="categories/add" element={<CategoryAdd />} />
+              <Route
+                path="categories/:slug/update"
+                element={<CategoryUpdate />}
+              />
+              {/* Product */}
+              <Route path="products" element={<ProductList />} />
+              <Route path="products/:slug" element={<ProductDetail />} />
+              <Route path="products/add" element={<ProductAdd />} />
+              <Route path="products/:slug/update" element={<ProductUpdate />} />
+              {/* Order */}
+              <Route path="order-lists" element={<OrderList />} />
+              <Route path="order-lists/:id" element={<OrderDetail />} />
+            </Route>
+          </Routes>
+        </LoadingProvider>
       </BrowserRouter>
     </>
   );

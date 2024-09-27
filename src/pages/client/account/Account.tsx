@@ -5,9 +5,14 @@ import BASE_URL from "../../../config";
 import { useForm } from "react-hook-form";
 import { User } from "../../../types/User";
 import toast from "react-hot-toast";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const Account = () => {
   const userId = localStorage.getItem("userId");
+
+  const { isLoading, setIsLoading } = useLoading();
+
   const {
     register,
     handleSubmit,
@@ -16,6 +21,7 @@ const Account = () => {
   } = useForm<User>();
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/users/${userId}`)
       .then((res) => {
@@ -27,8 +33,15 @@ const Account = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [userId, setValue]);
+  }, [userId, setValue, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const onsubmit = (data: User) => {
     axios

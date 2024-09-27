@@ -4,6 +4,8 @@ import { User } from "../../types/User";
 import axios from "axios";
 import BASE_URL from "../../config";
 import toast from "react-hot-toast";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const Register = () => {
   const {
@@ -14,7 +16,10 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const { isLoading, setIsLoading } = useLoading();
+
   const onSubmit = (data: User) => {
+    setIsLoading(true);
     axios
       .post(BASE_URL + `/auth/register`, data)
       .then((res) => {
@@ -25,8 +30,15 @@ const Register = () => {
       .catch((err) => {
         console.log(err);
         toast.error(err.response?.data?.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -90,7 +102,7 @@ const Register = () => {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^\S+@\S+$/i,
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                       message: "Invalid email address",
                     },
                   })}

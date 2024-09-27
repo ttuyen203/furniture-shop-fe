@@ -6,6 +6,8 @@ import BASE_URL from "../../../config";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../../../types/Product";
 import { statusCSS } from "../../../utils/statusCSS";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const AccountOrderDetail = () => {
   const { id } = useParams();
@@ -13,7 +15,10 @@ const AccountOrderDetail = () => {
 
   const [products, setProducts] = useState<Product[]>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/orders/${id}`)
       .then((res) => {
@@ -32,8 +37,15 @@ const AccountOrderDetail = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [id]);
+  }, [id, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -192,7 +204,11 @@ const AccountOrderDetail = () => {
                   Back
                 </button>
               </Link>
-              <div className={`py-2 px-4 rounded-lg ${statusCSS(data?.status ?? "")}`}>
+              <div
+                className={`py-2 px-4 rounded-lg ${statusCSS(
+                  data?.status ?? ""
+                )}`}
+              >
                 {data?.status}
               </div>
             </div>

@@ -7,14 +7,21 @@ import BASE_URL from "../../config";
 import type { Cart } from "../../types/Cart";
 import toast from "react-hot-toast";
 import { FaTrashCan } from "react-icons/fa6";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const Cart = () => {
   const [dataCart, setDataCart] = useState<Cart | null>(null);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   const userId = localStorage.getItem("userId");
   // console.log(userId);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/carts/user/${userId}`)
       .then((res) => {
@@ -23,8 +30,15 @@ const Cart = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [userId]);
+  }, [userId, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const totalAmount = dataCart?.products
     .reduce((total, d) => total + d.product.price * d.quantity, 0)
@@ -73,8 +87,6 @@ const Cart = () => {
       { duration: Infinity }
     );
   };
-
-  const navigate = useNavigate();
 
   const handleCheckout = () => {
     navigate("/checkout", { state: { cartProducts: dataCart?.products } });

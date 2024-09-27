@@ -3,23 +3,37 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../../config";
 import TopBar from "../../../components/TopBar";
-import { FaPenToSquare, FaRegTrashCan, FaArrowLeft } from "react-icons/fa6";
+import { FaPenToSquare, FaRegTrashCan } from "react-icons/fa6";
 import { Product } from "../../../types/Product";
 import toast from "react-hot-toast";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const ProductDetail = () => {
   const { slug } = useParams();
+
   const [product, setProduct] = useState<Product | null>(null);
+
+  const { isLoading, setIsLoading } = useLoading();
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${BASE_URL}/products/${slug}`)
       .then((res) => {
         setProduct(res.data.data);
       })
-      .catch((error) => console.error("Failed to fetch product:", error));
-  }, [slug]);
+      .catch((error) => console.error("Failed to fetch product:", error))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [slug, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleDelete = (productSlug: string) => {
     toast(
@@ -58,18 +72,9 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+    <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       <div className="px-5 py-2">
-        <div className="flex items-center mb-4">
-          <Link
-            to="/admin/products"
-            className="text-blue-500 flex items-center"
-          >
-            <FaArrowLeft className="mr-2" />
-            Back to Products
-          </Link>
-        </div>
         <div className="bg-white p-6 rounded-xl shadow-lg">
           <h1 className="text-3xl font-semibold mb-6">Product Details</h1>
           {product && (
@@ -142,6 +147,13 @@ const ProductDetail = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="mt-5 flex justify-between items-center">
+          <Link to="/admin/products">
+            <button className="bg-black text-white py-2 px-4 rounded-lg hover:bg-white hover:text-black border border-black transition-all duration-300">
+              Back
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -8,11 +8,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../config";
 import { toast } from "react-hot-toast";
+import Loading from "../../components/Loading";
+import { useLoading } from "../../context/LoadingContext";
 
 const Home = () => {
   const [data, setData] = useState<Product[]>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + "/products")
       .then((res) => {
@@ -20,9 +25,16 @@ const Home = () => {
         setData(res.data.data);
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message);
+        toast.error(err?.response?.data?.message || "Error!");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleAddToCart = (idProduct: string) => {
     const userId = localStorage.getItem("userId");

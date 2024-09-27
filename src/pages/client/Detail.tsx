@@ -18,6 +18,8 @@ import axios from "axios";
 import BASE_URL from "../../config";
 import { Product } from "../../types/Product";
 import toast from "react-hot-toast";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const Detail = () => {
   const { id } = useParams();
@@ -25,11 +27,14 @@ const Detail = () => {
   const [data, setData] = useState<Product | undefined>(undefined);
   const [quantity, setQuantity] = useState(1);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   const handleChangeQuantity = (change: number) => {
     setQuantity((prev) => Math.max(prev + change, 1));
   };
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/products/${id}`)
       .then((res) => {
@@ -38,8 +43,15 @@ const Detail = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [id]);
+  }, [id, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const userId = localStorage.getItem("userId");
   // console.log(userId);

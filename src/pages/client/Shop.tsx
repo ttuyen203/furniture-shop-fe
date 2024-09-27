@@ -11,6 +11,8 @@ import axios from "axios";
 import BASE_URL from "../../config";
 import toast from "react-hot-toast";
 import { Category } from "../../types/Category";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const Shop = () => {
   const [isOpenSelectCategory, setIsOpenSelectCategory] = useState(false);
@@ -21,7 +23,10 @@ const Shop = () => {
 
   const [data, setData] = useState<Product[]>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + "/products")
       .then((res) => {
@@ -30,6 +35,9 @@ const Shop = () => {
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
 
     axios
@@ -40,8 +48,15 @@ const Shop = () => {
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const prices = ["All Price", "$100 - $300"];
 
@@ -76,7 +91,7 @@ const Shop = () => {
         toast.error(err.response?.data?.message || "Failed to add to cart");
       });
   };
-  
+
   return (
     <div>
       {/* Banner */}

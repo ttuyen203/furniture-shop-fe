@@ -5,13 +5,20 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 import { statusCSS } from "../../../utils/statusCSS";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const AccountOrders = () => {
   const [orderData, setOrderData] = useState<Order[] | undefined>([]);
 
   const userId = localStorage.getItem("userId");
 
+  const { isLoading, setIsLoading } = useLoading();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/orders/user/${userId}`)
       .then((res) => {
@@ -20,10 +27,15 @@ const AccountOrders = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [userId]);
+  }, [userId, setIsLoading]);
 
-  const navigate = useNavigate();
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handelOrderDetail = (id: string) => {
     navigate(`/account/orders/${id}`);

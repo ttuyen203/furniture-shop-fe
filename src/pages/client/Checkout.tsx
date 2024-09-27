@@ -6,9 +6,13 @@ import BASE_URL from "../../config";
 import toast from "react-hot-toast";
 import { CartProduct } from "../../types/Cart";
 import { useEffect } from "react";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const Checkout = () => {
   const userId = localStorage.getItem("userId");
+
+  const { isLoading, setIsLoading } = useLoading();
 
   const {
     register,
@@ -17,7 +21,12 @@ const Checkout = () => {
     formState: { errors },
   } = useForm<FormOrder>();
 
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/users/${userId}`)
       .then((res) => {
@@ -29,14 +38,17 @@ const Checkout = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [userId, setValue]);
+  }, [userId, setValue, setIsLoading]);
 
-  const location = useLocation();
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const cartProducts: CartProduct[] = location.state?.cartProducts || [];
-
-  const navigate = useNavigate();
 
   const totalAmount = () => {
     return cartProducts.reduce((total, item) => {

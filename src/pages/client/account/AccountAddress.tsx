@@ -5,13 +5,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../../config";
 import { User } from "../../../types/User";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const AccountAddress = () => {
   const userId = localStorage.getItem("userId");
 
   const [userData, setUserData] = useState<User>();
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/users/${userId}`)
       .then((res) => {
@@ -19,8 +24,16 @@ const AccountAddress = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [userId]);
+  }, [userId, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className="flex justify-center">

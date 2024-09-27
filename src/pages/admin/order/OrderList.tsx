@@ -6,11 +6,16 @@ import BASE_URL from "../../../config";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { statusCSS } from "../../../utils/statusCSS";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const OrderList = () => {
   const [orderData, setOrderData] = useState<Order[] | undefined>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get<ApiResOrder>(BASE_URL + `/orders/`)
       .then((res) => {
@@ -18,10 +23,14 @@ const OrderList = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [setIsLoading]);
 
   const updateStatus = async (orderId: string, newStatus: string) => {
+    setIsLoading(true);
     try {
       await axios.put(`${BASE_URL}/orders/${orderId}`, { status: newStatus });
       const updatedOrders = orderData?.map((order) => {
@@ -33,11 +42,17 @@ const OrderList = () => {
       setOrderData(updatedOrders);
     } catch (error) {
       console.error("Error updating order status:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+    <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       <div className="px-5 py-2">
         <p className="text-[32px] font-semibold mb-4">Order Lists</p>

@@ -6,11 +6,16 @@ import BASE_URL from "../../../config";
 import toast from "react-hot-toast";
 import TopBar from "../../../components/TopBar";
 import { FaPenToSquare, FaRegTrashCan } from "react-icons/fa6";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const CategoryList = () => {
   const [data, setData] = useState<Category[]>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get<ApiResCate>(BASE_URL + "/categories")
       .then((res) => {
@@ -19,8 +24,15 @@ const CategoryList = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleDelete = (categorySlug: string) => {
     toast(
@@ -66,7 +78,7 @@ const CategoryList = () => {
   };
 
   return (
-    <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+    <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       <div className="px-5 py-2">
         <div className="flex items-center justify-between">

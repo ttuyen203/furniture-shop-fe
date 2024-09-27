@@ -8,6 +8,8 @@ import BASE_URL from "../../../config";
 import toast from "react-hot-toast";
 import { Category } from "../../../types/Category";
 import { FaRegImage, FaTimes } from "react-icons/fa";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const ProductAdd = () => {
   const {
@@ -19,7 +21,9 @@ const ProductAdd = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageName, setImageName] = useState<string>("");
-  
+
+  const { isLoading, setIsLoading } = useLoading();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +52,7 @@ const ProductAdd = () => {
   };
 
   const onSubmit = async (data: Product) => {
+    setIsLoading(true);
     try {
       if (imageFile) {
         const formData = new FormData();
@@ -71,12 +76,18 @@ const ProductAdd = () => {
       } else {
         toast.error("Create product failed");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+      <div className="w-full min-h-screen bg-[#f5f6fa]">
         <TopBar />
         <div className="px-5 py-2">
           <h2 className="text-[32px] font-semibold mb-4">Add Product</h2>
@@ -233,7 +244,7 @@ const ProductAdd = () => {
                 Description
               </label>
               <textarea
-                className="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none"
+                className="mt-1 block h-32 w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none"
                 {...register("desc")}
               />
             </div>

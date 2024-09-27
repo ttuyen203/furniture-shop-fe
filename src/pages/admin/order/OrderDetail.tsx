@@ -5,14 +5,20 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 import { Order } from "../../../types/Order";
 import { Product } from "../../../types/Product";
-import { FaArrowLeft } from "react-icons/fa";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
+import { statusCSS } from "../../../utils/statusCSS";
 
 const OrderDetail = () => {
   const { id } = useParams();
+
   const [data, setData] = useState<Order | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
 
+  const { isLoading, setIsLoading } = useLoading();
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(BASE_URL + `/orders/${id}`)
       .then((res) => {
@@ -29,23 +35,21 @@ const OrderDetail = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [id]);
+  }, [id, setIsLoading]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+    <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       {/* User Information */}
       <div className="px-5 py-2">
-        <div className="flex items-center mb-4">
-          <Link
-            to="/admin/order-lists"
-            className="text-blue-500 flex items-center"
-          >
-            <FaArrowLeft className="mr-2" />
-            Back to Order Lists
-          </Link>
-        </div>
         <p className="text-[32px] font-semibold mb-4">User Information</p>
         <div className="rounded-xl bg-white border border-[#d5d5d5]">
           <table className="min-w-full table-auto text-left">
@@ -54,7 +58,7 @@ const OrderDetail = () => {
                 <th className="hidden lg:table-cell py-4 px-6 text-gray-700 font-semibold">
                   User
                 </th>
-                <td className="py-4 px-6 text-gray-600">{data?.name}</td>
+                <td className="py-4 px-6 text-gray-600">{data?.username}</td>
               </tr>
               <tr className="border-b">
                 <th className="hidden lg:table-cell py-4 px-6 text-gray-700 font-semibold">
@@ -131,6 +135,19 @@ const OrderDetail = () => {
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div className="px-5 py-4 flex justify-between items-center">
+        <Link to={`/admin/order-lists`}>
+          <button className="bg-black text-white py-2 px-4 rounded-lg hover:bg-white hover:text-black border border-black transition-all duration-300">
+            Back
+          </button>
+        </Link>
+        <div
+          className={`py-2 px-4 rounded-lg ${statusCSS(data?.status ?? "")}`}
+        >
+          {data?.status}
         </div>
       </div>
     </div>

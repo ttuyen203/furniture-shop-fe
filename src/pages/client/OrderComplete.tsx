@@ -1,8 +1,23 @@
 import { Link, useLocation } from "react-router-dom";
+import { useLoading } from "../../context/LoadingContext";
+import Loading from "../../components/Loading";
 
 const OrderComplete = () => {
   const location = useLocation();
   const orderData = location.state?.orderData || [];
+  console.log(orderData);
+
+  const { isLoading, setIsLoading } = useLoading();
+
+  if (!orderData) {
+    setIsLoading(true);
+  } else {
+    setIsLoading(false);
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -53,7 +68,9 @@ const OrderComplete = () => {
                 </div>
                 <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 lg:justify-between mt-3 border-b lg:border-b-0 pb-2 lg:pb-0">
                   <p className="text-sm font-semibold text-[#6C7275]">Date:</p>
-                  <p className="text-sm font-semibold">October 19, 2023</p>
+                  <p className="text-sm font-semibold">
+                    {orderData.data.createdAt.split("T")[0]}
+                  </p>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-1 lg:gap-10 lg:justify-between mt-3 border-b lg:border-b-0 pb-2 lg:pb-0">
                   <p className="text-sm font-semibold text-[#6C7275]">Total:</p>

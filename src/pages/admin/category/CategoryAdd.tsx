@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../../config";
 import toast from "react-hot-toast";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const CategoryAdd = () => {
   const {
@@ -13,11 +15,12 @@ const CategoryAdd = () => {
     formState: { errors },
   } = useForm<Category>();
 
+  const { isLoading, setIsLoading } = useLoading();
+
   const navigate = useNavigate();
 
   const onsubmit = (data: Category) => {
-    console.log(data);
-
+    setIsLoading(true);
     axios
       .post(BASE_URL + "/categories", data)
       .then(() => {
@@ -27,12 +30,19 @@ const CategoryAdd = () => {
       .catch((err) => {
         console.log(err);
         toast.error(err.response?.data?.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+      <div className="w-full min-h-screen bg-[#f5f6fa]">
         <TopBar />
         <div className="px-5 py-2 ">
           <h2 className="text-[32px] font-semibold mb-4">Add category</h2>

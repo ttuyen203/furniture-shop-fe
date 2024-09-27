@@ -6,6 +6,8 @@ import BASE_URL from "../../../config";
 import axios from "axios";
 import toast from "react-hot-toast";
 import TopBar from "../../../components/TopBar";
+import { useLoading } from "../../../context/LoadingContext";
+import Loading from "../../../components/Loading";
 
 const CategoryUpdate = () => {
   const { slug } = useParams();
@@ -17,19 +19,29 @@ const CategoryUpdate = () => {
     setValue,
   } = useForm<Category>();
 
-  useEffect(() => {
-    axios.get(BASE_URL + "/categories/" + slug).then((res) => {
-      //   console.log("Data", res);
-      setValue("name", res.data.data.name);
-      setValue("status", res.data.data.status);
-    });
-  }, [setValue, slug]);
-
   const navigate = useNavigate();
 
-  const onsubmit = (data: Category) => {
-    console.log(data);
+  const { isLoading, setIsLoading } = useLoading();
 
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(BASE_URL + "/categories/" + slug)
+      .then((res) => {
+        //   console.log("Data", res);
+        setValue("name", res.data.data.name);
+        setValue("status", res.data.data.status);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [setValue, slug, setIsLoading]);
+
+  const onsubmit = (data: Category) => {
+    setIsLoading(true);
     axios
       .put(BASE_URL + "/categories/" + slug, data)
       .then(() => {
@@ -39,12 +51,19 @@ const CategoryUpdate = () => {
       .catch((err) => {
         console.log(err);
         toast.error(err.response?.data?.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <div className="sm:ml-64 w-full min-h-screen bg-[#f5f6fa]">
+      <div className="w-full min-h-screen bg-[#f5f6fa]">
         <TopBar />
         <div className="px-5 py-2 ">
           <h2 className="text-[32px] font-semibold mb-4">Update category</h2>
