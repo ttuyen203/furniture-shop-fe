@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FormOrder } from "../../types/Order";
 import axios from "axios";
 import BASE_URL from "../../config";
@@ -110,10 +110,10 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <div className="w-4/5 flex flex-col lg:flex-row gap-10 lg:mb-10">
-          <div className="w-full lg:w-3/5">
-            <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex justify-center">
+          <div className="w-4/5 flex flex-col lg:flex-row gap-10 lg:mb-10">
+            <div className="w-full lg:w-3/5">
               <div className="border-2 rounded-lg border-[#6c7275] px-5 py-7">
                 <p className="text-xl font-medium">Contact Information</p>
                 {/* Name */}
@@ -253,67 +253,67 @@ const Checkout = () => {
 
               <button
                 type="submit"
-                className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5 w-full"
+                className="hidden lg:block bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5 w-full"
               >
                 Place Order
               </button>
-            </form>
-          </div>
+            </div>
 
-          <div className="w-full lg:w-2/5">
-            <div className="border-2 rounded-lg border-[#6c7275] p-5">
-              <div>
-                <p className="text-[28px] font-medium text-[#141718]">
-                  Order summary
-                </p>
-                <div className="mt-5">
-                  {cartProducts.map((d) => (
-                    <div
-                      className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4"
-                      key={d._id}
-                    >
-                      <div className="w-1/4">
-                        <img src={d.product.images} alt="" className="w-20" />
-                      </div>
-                      <div className="w-3/4">
-                        <div className="flex text-sm font-semibold justify-between mb-1">
-                          <p>{d.product.name}</p>
-                          <p>${d.product.price}</p>
+            <div className="w-full lg:w-2/5">
+              <div className="border-2 rounded-lg border-[#6c7275] p-5">
+                <div>
+                  <p className="text-[28px] font-medium text-[#141718]">
+                    Order summary
+                  </p>
+                  <div className="mt-5">
+                    {cartProducts.map((d) => (
+                      <div
+                        className="flex gap-2 border-b-2 border-[#e8ecef] pb-4 mb-4"
+                        key={d._id}
+                      >
+                        <div className="w-1/4">
+                          <img src={d.product.images} alt="" className="w-20" />
                         </div>
-                        <div className="mb-1 text-xs font-normal text-[#6C7275]">
-                          <p>Status: New</p>
-                        </div>
-                        <div className="border border-[#6c7275] rounded-md p-2 flex justify-center items-center gap-3 w-1/12">
-                          <div className="font-semibold text-xs">
-                            {d.quantity}
+                        <div className="w-3/4">
+                          <div className="flex text-sm font-semibold justify-between mb-1">
+                            <p>{d.product.name}</p>
+                            <p>${d.product.price}</p>
+                          </div>
+                          <div className="mb-1 text-xs font-normal text-[#6C7275]">
+                            <p>Status: New</p>
+                          </div>
+                          <div className="border border-[#6c7275] rounded-md p-2 flex justify-center items-center gap-3 w-1/12">
+                            <div className="font-semibold text-xs">
+                              {d.quantity}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
 
-                  <div className="mb-5 mt-10">
-                    <div>
-                      <div className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between">
-                        <p className="text-base font-normal">Shipping</p>
-                        <div className="flex gap-1 text-base font-semibold">
-                          Free
+                    <div className="mb-5 mt-10">
+                      <div>
+                        <div className="py-2 border-b border-[#e8ecef] text-sm font-medium flex items-center justify-between">
+                          <p className="text-base font-normal">Shipping</p>
+                          <div className="flex gap-1 text-base font-semibold">
+                            Free
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <div className="py-2 border-b border-[#e8ecef] flex items-center justify-between">
-                        <p className="text-base font-normal">Subtotal</p>
-                        <div className="flex gap-1 text-base font-semibold">
-                          ${totalAmount()}
+                      <div>
+                        <div className="py-2 border-b border-[#e8ecef] flex items-center justify-between">
+                          <p className="text-base font-normal">Subtotal</p>
+                          <div className="flex gap-1 text-base font-semibold">
+                            ${totalAmount()}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <div className="py-2 border-b border-[#e8ecef] flex items-center justify-between">
-                        <p className="text-xl font-semibold">Total</p>
-                        <div className="flex gap-1 text-xl font-semibold">
-                          ${totalAmount()}
+                      <div>
+                        <div className="py-2 border-b border-[#e8ecef] flex items-center justify-between">
+                          <p className="text-xl font-semibold">Total</p>
+                          <div className="flex gap-1 text-xl font-semibold">
+                            ${totalAmount()}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -323,17 +323,18 @@ const Checkout = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="lg:hidden flex justify-center mb-4">
-        <div className="w-4/5">
-          <Link to={"/order-complete"}>
-            <p className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5">
+        <div className="lg:hidden flex justify-center mb-4">
+          <div className="w-4/5">
+            <button
+              type="submit"
+              className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5 w-full"
+            >
               Place Order
-            </p>
-          </Link>
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };

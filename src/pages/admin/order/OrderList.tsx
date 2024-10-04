@@ -68,7 +68,7 @@ const OrderList = () => {
               </tr>
             </thead>
             <tbody>
-              {orderData?.map((d) => (
+              {orderData?.reverse().map((d) => (
                 <tr
                   className="bg-white border-b border-[#d5d5d5] hover:bg-gray-50 transition"
                   key={d._id}

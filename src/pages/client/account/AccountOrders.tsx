@@ -78,7 +78,7 @@ const AccountOrders = () => {
                   </thead>
                   <tbody>
                     {orderData && orderData.length > 0 ? (
-                      orderData.map((d) => (
+                      orderData.reverse().map((d) => (
                         <tr
                           className="border-b hover:bg-[#f5f5f5] cursor-pointer"
                           key={d._id}
@@ -96,7 +96,7 @@ const AccountOrders = () => {
                           </td>
                           <td className="py-4">
                             <p
-                              className={`text-sm text-center font-normal w-1/2 px-3 py-1 rounded-lg ${statusCSS(
+                              className={`text-sm text-center font-normal w-3/5 px-3 py-1 rounded-lg ${statusCSS(
                                 d.status
                               )}`}
                             >
@@ -123,41 +123,58 @@ const AccountOrders = () => {
                 </table>
               </div>
 
+              {/* Mobile */}
               <div className="block lg:hidden">
-                <div className="border-b-2 border-[#e8ecef] pb-5 mt-5 rounded-md w-full">
-                  <div className="grid grid-cols-2 mb-2">
-                    <span className="text-sm font-normal text-[#6C7275]">
-                      Number ID
-                    </span>
-                    <span className="text-sm font-normal text-[#141718]">
-                      #3456_768
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 mb-2">
-                    <span className="text-sm font-normal text-[#6C7275]">
-                      Dates
-                    </span>
-                    <span className="text-sm font-normal text-[#141718]">
-                      October 17, 2023
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 mb-2">
-                    <span className="text-sm font-normal text-[#6C7275]">
-                      Status
-                    </span>
-                    <span className="text-sm font-normal text-[#141718]">
-                      Delivered
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <span className="text-sm font-normal text-[#6C7275]">
-                      Price
-                    </span>
-                    <span className="text-sm font-normal text-[#141718]">
-                      $1234.00
-                    </span>
-                  </div>
-                </div>
+                {orderData && orderData.length > 0 ? (
+                  orderData.map((d) => (
+                    <div
+                      className="border-b-2 border-[#e8ecef] pb-5 mt-5 rounded-md w-full cursor-pointer"
+                      key={d._id}
+                      onClick={() => handelOrderDetail(d._id)}
+                    >
+                      <div className="grid grid-cols-2 mb-2">
+                        <span className="text-sm font-normal text-[#6C7275]">
+                          Number ID
+                        </span>
+                        <span className="text-sm font-normal text-[#141718] overflow-hidden text-ellipsis">
+                          {d._id}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 mb-2">
+                        <span className="text-sm font-normal text-[#6C7275]">
+                          Dates
+                        </span>
+                        <span className="text-sm font-normal text-[#141718]">
+                          {d.createdAt.split("T")[0]}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 mb-2">
+                        <span className={`text-sm font-normal text-[#6C7275] `}>
+                          Status
+                        </span>
+                        <span
+                          className={`text-sm text-center font-normal w-7/12 p-0.5 rounded-lg ${statusCSS(
+                            d.status
+                          )}`}
+                        >
+                          {d.status}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2">
+                        <span className="text-sm font-normal text-[#6C7275]">
+                          Price
+                        </span>
+                        <span className="text-sm font-normal text-[#141718]">
+                          ${d.totalAmount}
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-center py-4 font-normal text-[#141718]">
+                    You currently have no orders.
+                  </p>
+                )}
               </div>
             </div>
           </div>

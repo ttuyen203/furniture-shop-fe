@@ -252,7 +252,7 @@ const Cart = () => {
               </div>
               {dataCart?.products && dataCart?.products.length > 0 ? (
                 <p
-                  className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5"
+                  className="bg-black text-lg font-medium text-white p-3 rounded-lg text-center mt-5 cursor-pointer"
                   onClick={() => {
                     handleCheckout();
                   }}

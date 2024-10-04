@@ -66,6 +66,7 @@ const Detail = () => {
       .then((res) => {
         toast.success("Add to cart successfully!");
         console.log(res);
+        // window.location.reload();
       })
       .catch((err) => {
         toast.error(err.response?.data?.message || "Add to cart failed");

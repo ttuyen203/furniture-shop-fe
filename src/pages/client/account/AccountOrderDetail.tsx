@@ -124,7 +124,7 @@ const AccountOrderDetail = () => {
             {/* Order Detail */}
             <div className="mt-5">
               <p className="text-xl font-semibold">Order Detail</p>
-              <div className="hidden lg:block w-full mt-5">
+              <div className="w-full mt-5">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b-2 border-[#6c7275] text-left">
