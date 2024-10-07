@@ -55,25 +55,21 @@ const OrderDetail = () => {
           <table className="min-w-full table-auto text-left">
             <tbody>
               <tr className="border-b">
-                <th className="hidden lg:table-cell py-4 px-6 text-gray-700 font-semibold">
-                  User
-                </th>
+                <th className="py-4 px-6 text-gray-700 font-semibold">User</th>
                 <td className="py-4 px-6 text-gray-600">{data?.username}</td>
               </tr>
               <tr className="border-b">
-                <th className="hidden lg:table-cell py-4 px-6 text-gray-700 font-semibold">
+                <th className="py-4 px-6 text-gray-700 font-semibold">
                   Address
                 </th>
                 <td className="py-4 px-6 text-gray-600">{data?.address}</td>
               </tr>
               <tr className="border-b">
-                <th className="hidden lg:table-cell py-4 px-6 text-gray-700 font-semibold">
-                  Phone
-                </th>
+                <th className="py-4 px-6 text-gray-700 font-semibold">Phone</th>
                 <td className="py-4 px-6 text-gray-600">{data?.phone}</td>
               </tr>
               <tr>
-                <th className="hidden lg:table-cell py-4 px-6 text-gray-700 font-semibold">
+                <th className="py-4 px-6 text-gray-700 font-semibold">
                   Payment
                 </th>
                 <td className="py-4 px-6 text-gray-600">{data?.payment}</td>
@@ -88,13 +84,13 @@ const OrderDetail = () => {
         <p className="text-[32px] font-semibold mb-4">Order Detail</p>
         <div className="overflow-x-auto rounded-xl border border-[#d5d5d5]">
           <table className="min-w-full bg-white table-auto">
-            <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider bg-gray-100">
+            <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider">
               <tr>
-                <th className="hidden lg:table-cell py-3 px-6">Name</th>
-                <th className="py-3 px-6">Image</th>
-                <th className="py-3 px-6">Price</th>
-                <th className="py-3 px-6">Quantity</th>
-                <th className="py-3 px-6">Subtotal</th>
+                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">Name</th>
+                <th className="py-3 px-4 lg:px-6">Image</th>
+                <th className="py-3 px-4 lg:px-6">Price</th>
+                <th className="py-3 px-4 lg:px-6">Quantity</th>
+                <th className="py-3 px-4 lg:px-6">Subtotal</th>
               </tr>
             </thead>
             <tbody>
@@ -114,7 +110,7 @@ const OrderDetail = () => {
                       <img
                         src={productInfo?.images}
                         alt={productInfo?.name}
-                        className="w-20 h-20 object-cover"
+                        className="w-20 h-25 object-cover"
                       />
                     </td>
                     <td className="py-4 px-6 text-sm">${productInfo?.price}</td>
@@ -126,7 +122,16 @@ const OrderDetail = () => {
                 );
               })}
               <tr className="bg-gray-50">
-                <td className="py-4 px-6 font-semibold text-right" colSpan={4}>
+                <td
+                  className="table-cell lg:hidden py-4 px-6 font-semibold text-right"
+                  colSpan={3}
+                >
+                  Total Amount
+                </td>
+                <td
+                  className="hidden lg:table-cell py-4 px-6 font-semibold text-right"
+                  colSpan={4}
+                >
                   Total Amount
                 </td>
                 <td className="py-4 px-6 font-semibold">

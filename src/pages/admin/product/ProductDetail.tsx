@@ -108,30 +108,12 @@ const ProductDetail = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex gap-4 mt-4">
-                  <button
-                    onClick={() => handleDelete(product.slug)}
-                    className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition"
-                  >
-                    <FaRegTrashCan className="inline-block mr-2" />
-                    Delete
-                  </button>
-                  <Link
-                    to={`/admin/products/${product.slug}/update`}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-blue-600 transition"
-                  >
-                    <FaPenToSquare className="inline-block mr-2" />
-                    Edit
-                  </Link>
-                </div>
               </div>
               <div className="space-y-4">
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-justify">
-                    Description:
-                  </h3>
-                  <p>{product.desc}</p>
-                </div>
+                <h3 className="text-xl font-semibold text-justify">
+                  Description:
+                </h3>
+                <p>{product.desc}</p>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Image:</h3>
                   {product.images ? (
@@ -144,6 +126,22 @@ const ProductDetail = () => {
                     <p className="text-gray-500">No image</p>
                   )}
                 </div>
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button
+                  onClick={() => handleDelete(product.slug)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition"
+                >
+                  <FaRegTrashCan className="inline-block mr-2" />
+                  Delete
+                </button>
+                <Link
+                  to={`/admin/products/${product.slug}/update`}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-blue-600 transition"
+                >
+                  <FaPenToSquare className="inline-block mr-2" />
+                  Edit
+                </Link>
               </div>
             </div>
           )}

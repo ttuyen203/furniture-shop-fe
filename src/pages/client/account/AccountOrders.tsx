@@ -142,7 +142,7 @@ const AccountOrders = () => {
                       </div>
                       <div className="grid grid-cols-2 mb-2">
                         <span className="text-sm font-normal text-[#6C7275]">
-                          Dates
+                          Date
                         </span>
                         <span className="text-sm font-normal text-[#141718]">
                           {d.createdAt.split("T")[0]}

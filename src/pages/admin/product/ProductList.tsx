@@ -21,7 +21,7 @@ const ProductList = () => {
       .get<ApiResProduct>(BASE_URL + "/products")
       .then((res) => {
         setData(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -95,13 +95,13 @@ const ProductList = () => {
           <table className="min-w-full bg-white">
             <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider">
               <tr>
-                <th className="py-3 px-6">STT</th>
-                <th className="py-3 px-6">Name</th>
-                <th className="py-3 px-6">Price</th>
-                <th className="py-3 px-6">Stock</th>
-                <th className="py-3 px-6">Category</th>
-                <th className="py-3 px-6">Status</th>
-                <th className="py-3 px-6">Actions</th>
+                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">STT</th>
+                <th className="py-3 px-4 lg:px-6">Product</th>
+                <th className="py-3 px-4 lg:px-6">Price</th>
+                <th className="py-3 px-4 lg:px-6">Stock</th>
+                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">Category</th>
+                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">Status</th>
+                <th className="py-3 px-4 lg:px-6">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -110,21 +110,32 @@ const ProductList = () => {
                   className="bg-white border-b border-[#d5d5d5] hover:bg-gray-50 transition"
                   key={d._id}
                 >
-                  <td className="py-4 px-6 text-sm font-medium text-[#202224]">
-                    {index + 1}
+                  <td className="hidden lg:table-cell">
+                    <div className="py-3 px-4 lg:px-6 text-sm font-medium text-[#202224]">
+                      {index + 1}
+                    </div>
                   </td>
-                  <td className="py-4 px-6 text-sm font-medium text-[#202224] max-w-[100px] lg:max-w-[250px] break-words">
+                  <td className="py-3 px-4 lg:px-6 text-sm font-medium text-[#202224] break-words">
                     <Link
                       to={`/admin/products/${d.slug}`}
                       className="hover:underline"
                     >
-                      {d.name}
+                      <div className="flex items-center gap-2 lg:gap-4">
+                        <img
+                          src={d.images}
+                          alt={d.name}
+                          className="w-16 h-20 lg:w-20 lg:h-25 object-cover"
+                        />
+                        <span className="hidden lg:block">{d.name}</span>
+                      </div>
                     </Link>
                   </td>
-                  <td className="py-4 px-6 text-sm">${d.price}</td>
-                  <td className="py-4 px-6 text-sm">{d.stock}</td>
-                  <td className="py-4 px-6 text-sm">{d.category?.name}</td>
-                  <td className="py-4 px-6 text-sm">
+                  <td className="py-3 px-4 lg:px-6 text-sm">${d.price}</td>
+                  <td className="py-3 px-4 lg:px-6 text-sm">{d.stock}</td>
+                  <td className="hidden lg:table-cell py-3 px-4 lg:px-6 text-sm">
+                    {d.category?.name}
+                  </td>
+                  <td className="hidden lg:table-cell py-3 px-4 lg:px-6 text-sm">
                     {d.status ? (
                       <span className="px-2 py-1 text-xs font-semibold rounded-lg bg-green-100 text-green-800">
                         Available
@@ -135,22 +146,24 @@ const ProductList = () => {
                       </span>
                     )}
                   </td>
-                  <td className="py-4 px-6 text-sm flex items-center gap-1.5 lg:gap-3">
-                    <Link to={`/admin/products/${d.slug}`}>
-                      <div className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-lg text-xs lg:text-base font-semibold hover:bg-yellow-300 transition">
-                        <FaEye />
+                  <td className="py-3 px-4 lg:px-6">
+                    <div className="flex items-center gap-2 lg:gap-3">
+                      <Link to={`/admin/products/${d.slug}`}>
+                        <div className="hidden lg:block bg-yellow-200 text-yellow-800 px-2 py-1 rounded-lg text-xs lg:text-sm font-semibold hover:bg-yellow-300 transition">
+                          <FaEye />
+                        </div>
+                      </Link>
+                      <Link to={`/admin/products/${d.slug}/update`}>
+                        <div className="bg-blue-200 text-blue-800 px-2 py-1 rounded-lg text-xs lg:text-sm font-semibold hover:bg-blue-300 transition">
+                          <FaPenToSquare />
+                        </div>
+                      </Link>
+                      <div
+                        className="bg-red-200 text-red-800 px-2 py-1 rounded-lg cursor-pointer text-xs lg:text-sm font-semibold hover:bg-red-300 transition"
+                        onClick={() => handleDelete(d.slug)}
+                      >
+                        <FaRegTrashCan />
                       </div>
-                    </Link>
-                    <Link to={`/admin/products/${d.slug}/update`}>
-                      <div className="bg-blue-200 text-blue-800 px-3 py-1 rounded-lg text-xs lg:text-base font-semibold hover:bg-blue-300 transition">
-                        <FaPenToSquare />
-                      </div>
-                    </Link>
-                    <div
-                      className="bg-red-200 text-red-800 px-3 py-1 rounded-lg cursor-pointer text-xs lg:text-base font-semibold hover:bg-red-300 transition"
-                      onClick={() => handleDelete(d.slug)}
-                    >
-                      <FaRegTrashCan />
                     </div>
                   </td>
                 </tr>

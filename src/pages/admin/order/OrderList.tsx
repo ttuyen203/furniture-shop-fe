@@ -4,7 +4,7 @@ import { ApiResOrder, Order } from "../../../types/Order";
 import axios from "axios";
 import BASE_URL from "../../../config";
 import { FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { statusCSS } from "../../../utils/statusCSS";
 import { useLoading } from "../../../context/LoadingContext";
 import Loading from "../../../components/Loading";
@@ -14,12 +14,15 @@ const OrderList = () => {
 
   const { isLoading, setIsLoading } = useLoading();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setIsLoading(true);
     axios
       .get<ApiResOrder>(BASE_URL + `/orders/`)
       .then((res) => {
         setOrderData(res.data.data);
+        console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -51,6 +54,10 @@ const OrderList = () => {
     return <Loading />;
   }
 
+  const handleOrderDetail = (id: string) => {
+    navigate(`/admin/order-lists/${id}`);
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
@@ -60,11 +67,12 @@ const OrderList = () => {
           <table className="min-w-full bg-white">
             <thead className="border-b border-[#d5d5d5] text-left text-xs font-semibold text-[#202224] uppercase tracking-wider">
               <tr>
-                <th className="hidden lg:block py-3 px-6">ID</th>
-                <th className="py-3 px-6">Dates</th>
-                <th className="py-3 px-6">Status</th>
-                <th className="py-3 px-6">Price</th>
-                <th className="py-3 px-6">Actions</th>
+                <th className="hidden lg:table-cell py-3 px-6">ID</th>
+                <th className="py-3 pl-3 lg:pl-6">User</th>
+                <th className="py-3 pl-2 lg:pl-6">Date</th>
+                <th className="py-3 pl-2 lg:pl-6">Status</th>
+                <th className="py-3 pl-1 lg:pl-6">Price</th>
+                <th className="hidden lg:table-cell py-3 pl-6">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -73,26 +81,49 @@ const OrderList = () => {
                   className="bg-white border-b border-[#d5d5d5] hover:bg-gray-50 transition"
                   key={d._id}
                 >
-                  <td className="hidden lg:block py-4 px-6 text-sm font-medium text-[#202224]">
+                  <td
+                    className="hidden lg:block py-4 pl-6 text-sm font-medium text-[#202224] cursor-pointer"
+                    onClick={() => handleOrderDetail(d._id)}
+                  >
                     {d._id}
                   </td>
-                  <td className="py-4 px-6 text-sm font-medium text-[#202224] max-w-[100px] lg:max-w-[250px] break-words">
-                    {d.createdAt.split("T")[0]}
-                  </td>
-                  <td className={`py-4 px-6 flex justify-between items-center`}>
-                    <p
-                      className={`py-1 px-2 text-xs font-semibold rounded-lg ${statusCSS(
-                        d.status
-                      )}`}
-                    >
-                      {d.status}
-                    </p>
+                  <td
+                    className="py-4 pl-3 lg:pl-6 text-sm font-medium text-[#202224] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[80px]"
+                    title={d.username}
+                    onClick={() => handleOrderDetail(d._id)}
+                  >
+                    {d.username}
                   </td>
 
-                  <td className="py-4 px-6 text-sm font-medium text-[#202224] max-w-[100px] lg:max-w-[250px] break-words">
+                  <td
+                    className="py-4 pl-2 lg:pl-6 text-sm font-medium text-[#72777c] max-w-[100px] lg:max-w-[250px] break-words cursor-pointer"
+                    onClick={() => handleOrderDetail(d._id)}
+                  >
+                    {d.createdAt.split("T")[0]}
+                  </td>
+                  <td
+                    className="cursor-pointer"
+                    onClick={() => handleOrderDetail(d._id)}
+                  >
+                    <div
+                      className={`py-4 pl-2 lg:pl-6 flex justify-between items-center`}
+                    >
+                      <p
+                        className={`py-1 px-2 text-xs font-semibold rounded-lg ${statusCSS(
+                          d.status
+                        )}`}
+                      >
+                        {d.status}
+                      </p>
+                    </div>
+                  </td>
+                  <td
+                    className="py-4 pl-1 lg:pl-6 text-sm font-medium text-[#202224] max-w-[100px] lg:max-w-[250px] break-words cursor-pointer"
+                    onClick={() => handleOrderDetail(d._id)}
+                  >
                     ${d.totalAmount}
                   </td>
-                  <td className="py-4 px-6 text-sm flex items-center gap-1.5 lg:gap-3">
+                  <td className="py-4 pl-6 text-sm hidden lg:flex items-center gap-1.5 lg:gap-3">
                     <Link to={`/admin/order-lists/${d._id}`}>
                       <div className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-lg text-xs lg:text-base font-semibold hover:bg-yellow-300 transition">
                         <FaEye />

@@ -128,7 +128,7 @@ const AccountOrderDetail = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b-2 border-[#6c7275] text-left">
-                      <th className="py-3 text-sm font-normal text-[#6C7275] text-left">
+                      <th className="hidden lg:table-cell py-3 text-sm font-normal text-[#6C7275] text-left">
                         Name
                       </th>
                       <th className="py-3 text-sm font-normal text-[#6C7275] text-left">
@@ -152,7 +152,7 @@ const AccountOrderDetail = () => {
                       );
                       return (
                         <tr className="border-b" key={d._id}>
-                          <td className="py-4 text-left">
+                          <td className="hidden lg:table-cell py-4 text-left">
                             <p className="text-sm font-normal text-[#141718]">
                               {productInfo?.name}
                             </p>
@@ -184,8 +184,14 @@ const AccountOrderDetail = () => {
                     })}
                     <tr className="border-b">
                       <td
-                        className="py-4 px-6 font-semibold text-right"
+                        className="hidden lg:table-cell py-4 px-6 font-semibold text-right"
                         colSpan={4}
+                      >
+                        Total Amount
+                      </td>
+                      <td
+                        className="table-cell lg:hidden py-4 px-6 font-semibold text-right"
+                        colSpan={3}
                       >
                         Total Amount
                       </td>
