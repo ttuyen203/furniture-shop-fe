@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../../config";
 import TopBar from "../../../components/TopBar";
-import { FaPenToSquare, FaRegTrashCan } from "react-icons/fa6";
 import { Product } from "../../../types/Product";
 import toast from "react-hot-toast";
 import { useLoading } from "../../../context/LoadingContext";
@@ -75,84 +74,94 @@ const ProductDetail = () => {
     <div className="w-full min-h-screen bg-[#f5f6fa]">
       <TopBar />
       <div className="px-5 py-2">
-        <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h1 className="text-3xl font-semibold mb-6">Product Details</h1>
-          {product && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-5">
-                  <h3 className="text-xl font-semibold">Name:</h3>
-                  <p className="text-lg">{product.name}</p>
-                </div>
-                <div className="flex items-center gap-5">
-                  <h3 className="text-xl font-semibold">Price:</h3>
-                  <p className="text-lg">${product.price}</p>
-                </div>
-                <div className="flex items-center gap-5">
-                  <h3 className="text-xl font-semibold">Stock:</h3>
-                  <p className="text-lg">{product.stock}</p>
-                </div>
-                <div className="flex items-center gap-5">
-                  <h3 className="text-xl font-semibold">Category:</h3>
-                  <p className="text-lg">{product.category?.name}</p>
-                </div>
-                <div className="flex items-center gap-5">
-                  <h3 className="text-xl font-semibold">Status:</h3>
+        <h2 className="text-[32px] font-semibold mb-4">Detail Product</h2>
+        {product ? (
+          <div className="flex flex-wrap -mx-4">
+            {/* Product Images */}
+            <div className="w-full md:w-1/3 px-4">
+              <img
+                src={product.images[0]}
+                alt=""
+                className="w-96 h-96 object-cover rounded-lg shadow-md mb-4"
+                id="mainImage"
+              />
+
+              <div className="flex gap-4 py-4 overflow-x-auto">
+                {product?.images?.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt=""
+                    className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
+                    onClick={() => {
+                      const mainImage = document.getElementById(
+                        "mainImage"
+                      ) as HTMLImageElement;
+                      if (mainImage) {
+                        mainImage.src = src;
+                      }
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Product Details */}
+            <div className="w-full md:w-2/3 md:pl-8">
+              <h2 className="text-3xl font-bold mb-2">{product?.name}</h2>
+              <p className="text-gray-600 mb-4">
+                Category: {product?.category?.name}
+              </p>
+              <div className="mb-4">
+                <span className="text-2xl font-bold mr-2">
+                  $ {product?.price}
+                </span>
+              </div>
+
+              {/* Mô tả */}
+              <p className="text-gray-700 mb-6 w-2/3 text-justify">
+                {product.desc}
+              </p>
+
+              <div className="mb-6">
+                <div className="text-sm font-medium text-gray-700 mb-1">
+                  Status:
                   {product.status ? (
-                    <span className="px-2 py-1 text-xs font-semibold rounded-lg bg-green-100 text-green-800">
+                    <span className="bg-green-200 text-green-600 px-2 py-0.5 rounded-sm ml-2">
                       Available
                     </span>
                   ) : (
-                    <span className="px-2 py-1 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700">
-                      Out of Stock
+                    <span className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded-sm ml-2">
+                      Out of stock
                     </span>
                   )}
                 </div>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-justify">
-                  Description:
-                </h3>
-                <p>{product.desc}</p>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">Image:</h3>
-                  {product.images ? (
-                    <img
-                      src={product.images}
-                      alt="Product"
-                      className="w-48 h-48 object-cover"
-                    />
-                  ) : (
-                    <p className="text-gray-500">No image</p>
-                  )}
+
+              <div className="flex space-x-4 mb-6">
+                <Link to={`/admin/products/${product.slug}/update`}>
+                  <div className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700">
+                    Update
+                  </div>
+                </Link>
+
+                <div onClick={() => handleDelete(product.slug)}>
+                  <div className="bg-red-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-red-700 cursor-pointer">
+                    Delete
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-4 mt-4">
-                <button
-                  onClick={() => handleDelete(product.slug)}
-                  className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition"
-                >
-                  <FaRegTrashCan className="inline-block mr-2" />
-                  Delete
-                </button>
-                <Link
-                  to={`/admin/products/${product.slug}/update`}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-blue-600 transition"
-                >
-                  <FaPenToSquare className="inline-block mr-2" />
-                  Edit
+
+                <Link to={`/admin/products`}>
+                  <div className="bg-gray-200 flex gap-2 items-center text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300">
+                    Back
+                  </div>
                 </Link>
               </div>
             </div>
-          )}
-        </div>
-        <div className="mt-5 flex justify-between items-center">
-          <Link to="/admin/products">
-            <button className="bg-black text-white py-2 px-4 rounded-lg hover:bg-white hover:text-black border border-black transition-all duration-300">
-              Back
-            </button>
-          </Link>
-        </div>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   );

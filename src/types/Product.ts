@@ -9,7 +9,7 @@ export interface Product {
   category: Category;
   stock: number;
   status: boolean;
-  images: string;
+  images: string[];
 }
 
 export interface ApiResProduct {

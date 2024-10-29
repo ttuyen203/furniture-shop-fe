@@ -10,6 +10,7 @@ import { Category } from "../../../types/Category";
 import { FaRegImage, FaTimes } from "react-icons/fa";
 import { useLoading } from "../../../context/LoadingContext";
 import Loading from "../../../components/Loading";
+import CLOUDINARY_URL from "../../../config/cloudinary_api";
 
 const ProductAdd = () => {
   const {
@@ -19,8 +20,9 @@ const ProductAdd = () => {
   } = useForm<Product>();
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageName, setImageName] = useState<string>("");
+  const [images, setImages] = useState<string[]>([]);
+  const [imagesErr, setImagesErr] = useState(false);
+  const [imagesUpload, setImagesUpload] = useState(false);
 
   const { isLoading, setIsLoading } = useLoading();
 
@@ -38,36 +40,48 @@ const ProductAdd = () => {
       });
   }, []);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      setImageFile(file);
-      setImageName(file.name);
-    }
+  const uploadImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "furniture-shop");
+
+    const response = await axios.post(CLOUDINARY_URL, formData);
+    return response.data.secure_url;
   };
 
-  const handleRemoveImage = () => {
-    setImageFile(null);
-    setImageName("");
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImagesUpload(true);
+
+    const files = Array.from(e.target.files || []);
+
+    const uploadedImages = await Promise.all(
+      files.map((file) => uploadImage(file))
+    );
+
+    setImages((prevImages) => [...prevImages, ...uploadedImages]);
+    setImagesUpload(false);
+    setImagesErr(false);
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   const onSubmit = async (data: Product) => {
     setIsLoading(true);
     try {
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append("file", imageFile);
-        formData.append("upload_preset", "furniture-shop");
-
-        const res = await axios.post(
-          `https://api.cloudinary.com/v1_1/dymajn3ys/image/upload`,
-          formData
-        );
-
-        data.images = res.data.secure_url;
+      if (images.length === 0) {
+        setImagesErr(true);
+        // console.log(imagesErr);
+        return;
       }
 
-      await axios.post(BASE_URL + "/products", data);
+      const formData = {
+        ...data,
+        images,
+      };
+
+      await axios.post(BASE_URL + "/products", formData);
       toast.success("Product added successfully!");
       navigate("/admin/products");
     } catch (err) {
@@ -197,42 +211,78 @@ const ProductAdd = () => {
 
             {/* Image */}
             <div>
-              <label
-                htmlFor="image"
-                className="text-sm font-medium text-gray-700"
-              >
-                <div className="px-4 py-4 text-center border-2 border-gray-400 border-dashed bg-white w-full lg:w-2/5 cursor-pointer">
-                  <div className="flex flex-col items-center">
-                    <FaRegImage size={50} className="mb-3" />
-                    <p>Drop your image here, or browse</p>
-                    <p>Jpeg, png are allowed</p>
-                  </div>
-                </div>
-              </label>
+              <p className="text-sm font-medium text-gray-700">Ảnh món ăn:</p>
               <input
                 type="file"
-                id="image"
-                className="hidden mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                id="images"
+                className="hidden"
                 accept="image/*"
+                multiple
                 onChange={handleImageChange}
               />
-              {imageName && (
-                <div className="mt-4">
-                  <h3 className="text-sm font-medium text-gray-700">
-                    Selected Image:
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <span>{imageName}</span>
-                    <button
-                      type="button"
-                      className="text-red-600 hover:text-red-800"
-                      onClick={handleRemoveImage}
-                    >
-                      <FaTimes />
-                    </button>
+              <div className="mt-2">
+                {imagesUpload && (
+                  <div className="w-52 my-2 px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse">
+                    Đang tải ảnh lên...
                   </div>
-                </div>
-              )}
+                )}
+
+                {images.length === 0 ? (
+                  <label htmlFor="images" className="cursor-pointer">
+                    <div
+                      className={`flex items-center justify-center w-24 h-24 border-2  ${
+                        imagesErr ? "border-red-400" : "border-gray-400"
+                      } border-dashed rounded bg-white`}
+                    >
+                      <FaRegImage
+                        size={40}
+                        className={imagesErr ? "text-red-600" : "text-gray-600"}
+                      />
+                    </div>
+                  </label>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {images.map((url, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={url}
+                          alt={`Uploaded ${index}`}
+                          className="w-24 h-24 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
+                          onClick={() => handleRemoveImage(index)}
+                        >
+                          <FaTimes />
+                        </button>
+                      </div>
+                    ))}
+
+                    {/* Nút thêm hình ảnh */}
+                    <label htmlFor="images" className="cursor-pointer">
+                      <div
+                        className={`flex items-center justify-center w-24 h-24 border-2  ${
+                          imagesErr ? "border-red-400" : "border-gray-400"
+                        } border-dashed rounded bg-white`}
+                      >
+                        <FaRegImage
+                          size={40}
+                          className={
+                            imagesErr ? "text-red-600" : "text-gray-600"
+                          }
+                        />
+                      </div>
+                    </label>
+                  </div>
+                )}
+
+                {imagesErr && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {imagesErr ? "Vui lòng tải lên ít nhất 1 ảnh" : ""}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Description */}

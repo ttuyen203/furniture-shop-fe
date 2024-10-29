@@ -99,8 +99,12 @@ const ProductList = () => {
                 <th className="py-3 px-4 lg:px-6">Product</th>
                 <th className="py-3 px-4 lg:px-6">Price</th>
                 <th className="py-3 px-4 lg:px-6">Stock</th>
-                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">Category</th>
-                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">Status</th>
+                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">
+                  Category
+                </th>
+                <th className="hidden lg:table-cell py-3 px-4 lg:px-6">
+                  Status
+                </th>
                 <th className="py-3 px-4 lg:px-6">Actions</th>
               </tr>
             </thead>
@@ -122,7 +126,7 @@ const ProductList = () => {
                     >
                       <div className="flex items-center gap-2 lg:gap-4">
                         <img
-                          src={d.images}
+                          src={d.images[0]}
                           alt={d.name}
                           className="w-16 h-20 lg:w-20 lg:h-25 object-cover"
                         />
