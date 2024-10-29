@@ -70,6 +70,12 @@ const Login = () => {
                 Register
               </Link>
             </p>
+
+            <div className="text-[#6c7275] mb-6 italic">
+              <p>Mail: us1@gmail.com</p>
+              <p>Pass: 123456</p>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-8">
                 <input
