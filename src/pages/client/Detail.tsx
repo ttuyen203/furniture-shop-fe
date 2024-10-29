@@ -93,7 +93,7 @@ const Detail = () => {
           {/*List Image Product */}
           <div className="hidden lg:grid lg:grid-cols-2 gap-7 w-full lg:w-2/4">
             <div className="max-w-[262px]">
-              <img src={data?.images} alt="Product Image" />
+              <img src={data?.images[0]} alt="Product Image" />
             </div>
           </div>
           {/* List Image Product Mobile */}
@@ -116,7 +116,7 @@ const Detail = () => {
             >
               <SwiperSlide className="w-full">
                 <img
-                  src={data?.images}
+                  src={data?.images[0]}
                   alt="Product Image"
                   className="w-full h-auto object-cover"
                 />

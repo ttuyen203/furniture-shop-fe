@@ -297,7 +297,7 @@ const Shop = () => {
                       <p className="w-24">Add to cart</p>
                     </div>
                   </div>
-                  <img src={d.images} alt="" className="w-full" />
+                  <img src={d.images[0]} alt="" className="w-full" />
                 </div>
                 <Link to={`/product-detail/${d.slug}`}>
                   <div className="mt-3">

@@ -159,7 +159,7 @@ const AccountOrderDetail = () => {
                           </td>
                           <td className="py-4 text-left">
                             <img
-                              src={productInfo?.images}
+                              src={productInfo?.images[0]}
                               alt={productInfo?.name}
                               className="w-20 h-20 object-cover"
                             />

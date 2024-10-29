@@ -146,7 +146,7 @@ const Cart = () => {
                     <tr className="border-b" key={d?._id}>
                       <td className="py-4">
                         <div className="flex gap-3 items-center text-left">
-                          <img src={d.product.images} alt="" className="w-16" />
+                          <img src={d.product.images[0]} alt="" className="w-16" />
                           <div>
                             <p className="text-sm font-semibold">
                               {d.product.name}

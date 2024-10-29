@@ -272,7 +272,7 @@ const Checkout = () => {
                         key={d._id}
                       >
                         <div className="w-1/4">
-                          <img src={d.product.images} alt="" className="w-20" />
+                          <img src={d.product.images[0]} alt="" className="w-20" />
                         </div>
                         <div className="w-3/4">
                           <div className="flex text-sm font-semibold justify-between mb-1">

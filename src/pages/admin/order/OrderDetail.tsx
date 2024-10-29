@@ -108,7 +108,7 @@ const OrderDetail = () => {
                     </td>
                     <td className="py-4 px-6 text-sm">
                       <img
-                        src={productInfo?.images}
+                        src={productInfo?.images[0]}
                         alt={productInfo?.name}
                         className="w-20 h-25 object-cover"
                       />
